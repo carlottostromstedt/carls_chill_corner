@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Corners</h1>
+
+<div id="corners">
+  <% @corners.each do |corner| %>
+    <%= render corner %>
+    <p>
+      <%= link_to "Show this corner", corner %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New corner", new_corner_path %>
