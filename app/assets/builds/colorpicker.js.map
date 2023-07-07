@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../javascript/colorpicker.js"],
+  "sourcesContent": ["const formField = document.getElementById('form-field');\nconst updateButton = document.getElementById('update-button');\nconst colorInput = document.getElementById('color-input');\n\nupdateButton.addEventListener('click', function() {\n    colorInput.textContent = document.getElementById('colorInput1').jscolor.toHEXString();\n    console.log(\"hello\");\n});\n\nfunction setDefaultColor() {\n    var colorInput = document.getElementById(\"colorInput1\");\n    colorInput.jscolor.fromString(\"A0C0BF\");\n    colorInput.textContent = document.getElementById('colorInput1').jscolor.toHEXString();\n}\n\nwindow.addEventListener(\"load\", setDefaultColor);"],
+  "mappings": ";;AAAA,MAAM,YAAY,SAAS,eAAe,YAAY;AACtD,MAAM,eAAe,SAAS,eAAe,eAAe;AAC5D,MAAM,aAAa,SAAS,eAAe,aAAa;AAExD,eAAa,iBAAiB,SAAS,WAAW;AAC9C,eAAW,cAAc,SAAS,eAAe,aAAa,EAAE,QAAQ,YAAY;AACpF,YAAQ,IAAI,OAAO;AAAA,EACvB,CAAC;AAED,WAAS,kBAAkB;AACvB,QAAIA,cAAa,SAAS,eAAe,aAAa;AACtD,IAAAA,YAAW,QAAQ,WAAW,QAAQ;AACtC,IAAAA,YAAW,cAAc,SAAS,eAAe,aAAa,EAAE,QAAQ,YAAY;AAAA,EACxF;AAEA,SAAO,iBAAiB,QAAQ,eAAe;",
+  "names": ["colorInput"]
+}
