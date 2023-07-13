@@ -702,11 +702,11 @@
             //
             // adapted from https://www.html5rocks.com/en/tutorials/canvas/hidpi/
             //
-            scaleCanvasForHighDPR: function(canvas) {
+            scaleCanvasForHighDPR: function(canvas2) {
               var dpr = window2.devicePixelRatio || 1;
-              canvas.width *= dpr;
-              canvas.height *= dpr;
-              var ctx = canvas.getContext("2d");
+              canvas2.width *= dpr;
+              canvas2.height *= dpr;
+              var ctx = canvas2.getContext("2d");
               ctx.scale(dpr, dpr);
             },
             genColorPreviewCanvas: function(color, separatorPos, specWidth, scaleForHighDPR) {
@@ -716,12 +716,12 @@
               var sqColor2 = jsc.pub.chessboardColor2;
               var cWidth = specWidth ? specWidth : sqSize * 2;
               var cHeight = sqSize * 2;
-              var canvas = jsc.createEl("canvas");
-              var ctx = canvas.getContext("2d");
-              canvas.width = cWidth;
-              canvas.height = cHeight;
+              var canvas2 = jsc.createEl("canvas");
+              var ctx = canvas2.getContext("2d");
+              canvas2.width = cWidth;
+              canvas2.height = cHeight;
               if (scaleForHighDPR) {
-                jsc.scaleCanvasForHighDPR(canvas);
+                jsc.scaleCanvasForHighDPR(canvas2);
               }
               ctx.fillStyle = sqColor1;
               ctx.fillRect(0, 0, cWidth, cHeight);
@@ -756,7 +756,7 @@
                 }
               }
               return {
-                canvas,
+                canvas: canvas2,
                 width: cWidth,
                 height: cHeight
               };
@@ -1149,13 +1149,13 @@
                 elm: null,
                 draw: null
               };
-              var canvas = jsc.createEl("canvas");
-              var ctx = canvas.getContext("2d");
+              var canvas2 = jsc.createEl("canvas");
+              var ctx = canvas2.getContext("2d");
               var drawFunc = function(width, height, type) {
-                canvas.width = width;
-                canvas.height = height;
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                var hGrad = ctx.createLinearGradient(0, 0, canvas.width, 0);
+                canvas2.width = width;
+                canvas2.height = height;
+                ctx.clearRect(0, 0, canvas2.width, canvas2.height);
+                var hGrad = ctx.createLinearGradient(0, 0, canvas2.width, 0);
                 hGrad.addColorStop(0 / 6, "#F00");
                 hGrad.addColorStop(1 / 6, "#FF0");
                 hGrad.addColorStop(2 / 6, "#0F0");
@@ -1164,8 +1164,8 @@
                 hGrad.addColorStop(5 / 6, "#F0F");
                 hGrad.addColorStop(6 / 6, "#F00");
                 ctx.fillStyle = hGrad;
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                var vGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                ctx.fillRect(0, 0, canvas2.width, canvas2.height);
+                var vGrad = ctx.createLinearGradient(0, 0, 0, canvas2.height);
                 switch (type.toLowerCase()) {
                   case "s":
                     vGrad.addColorStop(0, "rgba(255,255,255,0)");
@@ -1177,9 +1177,9 @@
                     break;
                 }
                 ctx.fillStyle = vGrad;
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillRect(0, 0, canvas2.width, canvas2.height);
               };
-              ret.elm = canvas;
+              ret.elm = canvas2;
               ret.draw = drawFunc;
               return ret;
             },
@@ -1188,19 +1188,19 @@
                 elm: null,
                 draw: null
               };
-              var canvas = jsc.createEl("canvas");
-              var ctx = canvas.getContext("2d");
+              var canvas2 = jsc.createEl("canvas");
+              var ctx = canvas2.getContext("2d");
               var drawFunc = function(width, height, color1, color2) {
-                canvas.width = width;
-                canvas.height = height;
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                var grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                canvas2.width = width;
+                canvas2.height = height;
+                ctx.clearRect(0, 0, canvas2.width, canvas2.height);
+                var grad = ctx.createLinearGradient(0, 0, 0, canvas2.height);
                 grad.addColorStop(0, color1);
                 grad.addColorStop(1, color2);
                 ctx.fillStyle = grad;
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillRect(0, 0, canvas2.width, canvas2.height);
               };
-              ret.elm = canvas;
+              ret.elm = canvas2;
               ret.draw = drawFunc;
               return ret;
             },
@@ -1209,31 +1209,31 @@
                 elm: null,
                 draw: null
               };
-              var canvas = jsc.createEl("canvas");
-              var ctx = canvas.getContext("2d");
+              var canvas2 = jsc.createEl("canvas");
+              var ctx = canvas2.getContext("2d");
               var drawFunc = function(width, height, color) {
-                canvas.width = width;
-                canvas.height = height;
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                var sqSize = canvas.width / 2;
+                canvas2.width = width;
+                canvas2.height = height;
+                ctx.clearRect(0, 0, canvas2.width, canvas2.height);
+                var sqSize = canvas2.width / 2;
                 var sqColor1 = jsc.pub.chessboardColor1;
                 var sqColor2 = jsc.pub.chessboardColor2;
                 ctx.fillStyle = sqColor1;
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillRect(0, 0, canvas2.width, canvas2.height);
                 if (sqSize > 0) {
-                  for (var y = 0; y < canvas.height; y += sqSize * 2) {
+                  for (var y = 0; y < canvas2.height; y += sqSize * 2) {
                     ctx.fillStyle = sqColor2;
                     ctx.fillRect(0, y, sqSize, sqSize);
                     ctx.fillRect(sqSize, y + sqSize, sqSize, sqSize);
                   }
                 }
-                var grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                var grad = ctx.createLinearGradient(0, 0, 0, canvas2.height);
                 grad.addColorStop(0, color);
                 grad.addColorStop(1, "rgba(0,0,0,0)");
                 ctx.fillStyle = grad;
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillRect(0, 0, canvas2.width, canvas2.height);
               };
-              ret.elm = canvas;
+              ret.elm = canvas2;
               ret.draw = drawFunc;
               return ret;
             },
@@ -7327,6 +7327,8 @@
 
   // node_modules/three/build/three.module.js
   var REVISION = "154";
+  var MOUSE = { LEFT: 0, MIDDLE: 1, RIGHT: 2, ROTATE: 0, DOLLY: 1, PAN: 2 };
+  var TOUCH = { ROTATE: 0, PAN: 1, DOLLY_PAN: 2, DOLLY_ROTATE: 3 };
   var CullFaceNone = 0;
   var CullFaceBack = 1;
   var CullFaceFront = 2;
@@ -8245,9 +8247,9 @@
       if (typeof HTMLCanvasElement === "undefined") {
         return image.src;
       }
-      let canvas;
+      let canvas2;
       if (image instanceof HTMLCanvasElement) {
-        canvas = image;
+        canvas2 = image;
       } else {
         if (_canvas === void 0)
           _canvas = createElementNS("canvas");
@@ -8259,21 +8261,21 @@
         } else {
           context.drawImage(image, 0, 0, image.width, image.height);
         }
-        canvas = _canvas;
+        canvas2 = _canvas;
       }
-      if (canvas.width > 2048 || canvas.height > 2048) {
+      if (canvas2.width > 2048 || canvas2.height > 2048) {
         console.warn("THREE.ImageUtils.getDataURL: Image converted to jpg for performance reasons", image);
-        return canvas.toDataURL("image/jpeg", 0.6);
+        return canvas2.toDataURL("image/jpeg", 0.6);
       } else {
-        return canvas.toDataURL("image/png");
+        return canvas2.toDataURL("image/png");
       }
     }
     static sRGBToLinear(image) {
       if (typeof HTMLImageElement !== "undefined" && image instanceof HTMLImageElement || typeof HTMLCanvasElement !== "undefined" && image instanceof HTMLCanvasElement || typeof ImageBitmap !== "undefined" && image instanceof ImageBitmap) {
-        const canvas = createElementNS("canvas");
-        canvas.width = image.width;
-        canvas.height = image.height;
-        const context = canvas.getContext("2d");
+        const canvas2 = createElementNS("canvas");
+        canvas2.width = image.width;
+        canvas2.height = image.height;
+        const context = canvas2.getContext("2d");
         context.drawImage(image, 0, 0, image.width, image.height);
         const imageData = context.getImageData(0, 0, image.width, image.height);
         const data = imageData.data;
@@ -8281,7 +8283,7 @@
           data[i] = SRGBToLinear(data[i] / 255) * 255;
         }
         context.putImageData(imageData, 0, 0);
-        return canvas;
+        return canvas2;
       } else if (image.data) {
         const data = image.data.slice(0);
         for (let i = 0; i < data.length; i++) {
@@ -9962,9 +9964,9 @@
     intersectsBox(box) {
       return box.max.x < this.min.x || box.min.x > this.max.x || box.max.y < this.min.y || box.min.y > this.max.y || box.max.z < this.min.z || box.min.z > this.max.z ? false : true;
     }
-    intersectsSphere(sphere) {
-      this.clampPoint(sphere.center, _vector$a);
-      return _vector$a.distanceToSquared(sphere.center) <= sphere.radius * sphere.radius;
+    intersectsSphere(sphere2) {
+      this.clampPoint(sphere2.center, _vector$a);
+      return _vector$a.distanceToSquared(sphere2.center) <= sphere2.radius * sphere2.radius;
     }
     intersectsPlane(plane) {
       let min2, max2;
@@ -10155,9 +10157,9 @@
       this.radius = Math.sqrt(maxRadiusSq);
       return this;
     }
-    copy(sphere) {
-      this.center.copy(sphere.center);
-      this.radius = sphere.radius;
+    copy(sphere2) {
+      this.center.copy(sphere2.center);
+      this.radius = sphere2.radius;
       return this;
     }
     isEmpty() {
@@ -10174,9 +10176,9 @@
     distanceToPoint(point) {
       return point.distanceTo(this.center) - this.radius;
     }
-    intersectsSphere(sphere) {
-      const radiusSum = this.radius + sphere.radius;
-      return sphere.center.distanceToSquared(this.center) <= radiusSum * radiusSum;
+    intersectsSphere(sphere2) {
+      const radiusSum = this.radius + sphere2.radius;
+      return sphere2.center.distanceToSquared(this.center) <= radiusSum * radiusSum;
     }
     intersectsBox(box) {
       return box.intersectsSphere(this);
@@ -10227,25 +10229,25 @@
       }
       return this;
     }
-    union(sphere) {
-      if (sphere.isEmpty()) {
+    union(sphere2) {
+      if (sphere2.isEmpty()) {
         return this;
       }
       if (this.isEmpty()) {
-        this.copy(sphere);
+        this.copy(sphere2);
         return this;
       }
-      if (this.center.equals(sphere.center) === true) {
-        this.radius = Math.max(this.radius, sphere.radius);
+      if (this.center.equals(sphere2.center) === true) {
+        this.radius = Math.max(this.radius, sphere2.radius);
       } else {
-        _v2$3.subVectors(sphere.center, this.center).setLength(sphere.radius);
-        this.expandByPoint(_v1$6.copy(sphere.center).add(_v2$3));
-        this.expandByPoint(_v1$6.copy(sphere.center).sub(_v2$3));
+        _v2$3.subVectors(sphere2.center, this.center).setLength(sphere2.radius);
+        this.expandByPoint(_v1$6.copy(sphere2.center).add(_v2$3));
+        this.expandByPoint(_v1$6.copy(sphere2.center).sub(_v2$3));
       }
       return this;
     }
-    equals(sphere) {
-      return sphere.center.equals(this.center) && sphere.radius === this.radius;
+    equals(sphere2) {
+      return sphere2.center.equals(this.center) && sphere2.radius === this.radius;
     }
     clone() {
       return new this.constructor().copy(this);
@@ -10363,11 +10365,11 @@
       }
       return sqrDist;
     }
-    intersectSphere(sphere, target) {
-      _vector$9.subVectors(sphere.center, this.origin);
+    intersectSphere(sphere2, target) {
+      _vector$9.subVectors(sphere2.center, this.origin);
       const tca = _vector$9.dot(this.direction);
       const d2 = _vector$9.dot(_vector$9) - tca * tca;
-      const radius2 = sphere.radius * sphere.radius;
+      const radius2 = sphere2.radius * sphere2.radius;
       if (d2 > radius2)
         return null;
       const thc = Math.sqrt(radius2 - d2);
@@ -10379,8 +10381,8 @@
         return this.at(t1, target);
       return this.at(t0, target);
     }
-    intersectsSphere(sphere) {
-      return this.distanceSqToPoint(sphere.center) <= sphere.radius * sphere.radius;
+    intersectsSphere(sphere2) {
+      return this.distanceSqToPoint(sphere2.center) <= sphere2.radius * sphere2.radius;
     }
     distanceToPlane(plane) {
       const denominator = plane.normal.dot(this.direction);
@@ -14861,8 +14863,8 @@
     distanceToPoint(point) {
       return this.normal.dot(point) + this.constant;
     }
-    distanceToSphere(sphere) {
-      return this.distanceToPoint(sphere.center) - sphere.radius;
+    distanceToSphere(sphere2) {
+      return this.distanceToPoint(sphere2.center) - sphere2.radius;
     }
     projectPoint(point, target) {
       return target.copy(point).addScaledVector(this.normal, -this.distanceToPoint(point));
@@ -14890,8 +14892,8 @@
     intersectsBox(box) {
       return box.intersectsPlane(this);
     }
-    intersectsSphere(sphere) {
-      return sphere.intersectsPlane(this);
+    intersectsSphere(sphere2) {
+      return sphere2.intersectsPlane(this);
     }
     coplanarPoint(target) {
       return target.copy(this.normal).multiplyScalar(-this.constant);
@@ -14977,10 +14979,10 @@
       _sphere$4.applyMatrix4(sprite.matrixWorld);
       return this.intersectsSphere(_sphere$4);
     }
-    intersectsSphere(sphere) {
+    intersectsSphere(sphere2) {
       const planes = this.planes;
-      const center = sphere.center;
-      const negRadius = -sphere.radius;
+      const center = sphere2.center;
+      const negRadius = -sphere2.radius;
       for (let i = 0; i < 6; i++) {
         const distance = planes[i].distanceToPoint(center);
         if (distance < negRadius) {
@@ -18464,11 +18466,11 @@
     }
   };
   var RePathPart = /(\w+)(\])?(\[|\.)?/g;
-  function addUniform(container2, uniformObject) {
-    container2.seq.push(uniformObject);
-    container2.map[uniformObject.id] = uniformObject;
+  function addUniform(container, uniformObject) {
+    container.seq.push(uniformObject);
+    container.map[uniformObject.id] = uniformObject;
   }
-  function parseUniform(activeInfo, addr, container2) {
+  function parseUniform(activeInfo, addr, container) {
     const path = activeInfo.name, pathLength = path.length;
     RePathPart.lastIndex = 0;
     while (true) {
@@ -18478,16 +18480,16 @@
       if (idIsIndex)
         id = id | 0;
       if (subscript === void 0 || subscript === "[" && matchEnd + 2 === pathLength) {
-        addUniform(container2, subscript === void 0 ? new SingleUniform(id, activeInfo, addr) : new PureArrayUniform(id, activeInfo, addr));
+        addUniform(container, subscript === void 0 ? new SingleUniform(id, activeInfo, addr) : new PureArrayUniform(id, activeInfo, addr));
         break;
       } else {
-        const map = container2.map;
+        const map = container.map;
         let next = map[id];
         if (next === void 0) {
           next = new StructuredUniform(id);
-          addUniform(container2, next);
+          addUniform(container, next);
         }
-        container2 = next;
+        container = next;
       }
     }
   }
@@ -19806,12 +19808,12 @@
   function UniformsCache() {
     const lights = {};
     return {
-      get: function(light2) {
-        if (lights[light2.id] !== void 0) {
-          return lights[light2.id];
+      get: function(light) {
+        if (lights[light.id] !== void 0) {
+          return lights[light.id];
         }
         let uniforms;
-        switch (light2.type) {
+        switch (light.type) {
           case "DirectionalLight":
             uniforms = {
               direction: new Vector3(),
@@ -19853,7 +19855,7 @@
             };
             break;
         }
-        lights[light2.id] = uniforms;
+        lights[light.id] = uniforms;
         return uniforms;
       }
     };
@@ -19861,12 +19863,12 @@
   function ShadowUniformsCache() {
     const lights = {};
     return {
-      get: function(light2) {
-        if (lights[light2.id] !== void 0) {
-          return lights[light2.id];
+      get: function(light) {
+        if (lights[light.id] !== void 0) {
+          return lights[light.id];
         }
         let uniforms;
-        switch (light2.type) {
+        switch (light.type) {
           case "DirectionalLight":
             uniforms = {
               shadowBias: 0,
@@ -19894,7 +19896,7 @@
             };
             break;
         }
-        lights[light2.id] = uniforms;
+        lights[light.id] = uniforms;
         return uniforms;
       }
     };
@@ -19962,56 +19964,56 @@
       lights.sort(shadowCastingAndTexturingLightsFirst);
       const scaleFactor = useLegacyLights === true ? Math.PI : 1;
       for (let i = 0, l = lights.length; i < l; i++) {
-        const light2 = lights[i];
-        const color = light2.color;
-        const intensity = light2.intensity;
-        const distance = light2.distance;
-        const shadowMap = light2.shadow && light2.shadow.map ? light2.shadow.map.texture : null;
-        if (light2.isAmbientLight) {
+        const light = lights[i];
+        const color = light.color;
+        const intensity = light.intensity;
+        const distance = light.distance;
+        const shadowMap = light.shadow && light.shadow.map ? light.shadow.map.texture : null;
+        if (light.isAmbientLight) {
           r += color.r * intensity * scaleFactor;
           g += color.g * intensity * scaleFactor;
           b += color.b * intensity * scaleFactor;
-        } else if (light2.isLightProbe) {
+        } else if (light.isLightProbe) {
           for (let j = 0; j < 9; j++) {
-            state.probe[j].addScaledVector(light2.sh.coefficients[j], intensity);
+            state.probe[j].addScaledVector(light.sh.coefficients[j], intensity);
           }
-        } else if (light2.isDirectionalLight) {
-          const uniforms = cache.get(light2);
-          uniforms.color.copy(light2.color).multiplyScalar(light2.intensity * scaleFactor);
-          if (light2.castShadow) {
-            const shadow2 = light2.shadow;
-            const shadowUniforms = shadowCache.get(light2);
+        } else if (light.isDirectionalLight) {
+          const uniforms = cache.get(light);
+          uniforms.color.copy(light.color).multiplyScalar(light.intensity * scaleFactor);
+          if (light.castShadow) {
+            const shadow2 = light.shadow;
+            const shadowUniforms = shadowCache.get(light);
             shadowUniforms.shadowBias = shadow2.bias;
             shadowUniforms.shadowNormalBias = shadow2.normalBias;
             shadowUniforms.shadowRadius = shadow2.radius;
             shadowUniforms.shadowMapSize = shadow2.mapSize;
             state.directionalShadow[directionalLength] = shadowUniforms;
             state.directionalShadowMap[directionalLength] = shadowMap;
-            state.directionalShadowMatrix[directionalLength] = light2.shadow.matrix;
+            state.directionalShadowMatrix[directionalLength] = light.shadow.matrix;
             numDirectionalShadows++;
           }
           state.directional[directionalLength] = uniforms;
           directionalLength++;
-        } else if (light2.isSpotLight) {
-          const uniforms = cache.get(light2);
-          uniforms.position.setFromMatrixPosition(light2.matrixWorld);
+        } else if (light.isSpotLight) {
+          const uniforms = cache.get(light);
+          uniforms.position.setFromMatrixPosition(light.matrixWorld);
           uniforms.color.copy(color).multiplyScalar(intensity * scaleFactor);
           uniforms.distance = distance;
-          uniforms.coneCos = Math.cos(light2.angle);
-          uniforms.penumbraCos = Math.cos(light2.angle * (1 - light2.penumbra));
-          uniforms.decay = light2.decay;
+          uniforms.coneCos = Math.cos(light.angle);
+          uniforms.penumbraCos = Math.cos(light.angle * (1 - light.penumbra));
+          uniforms.decay = light.decay;
           state.spot[spotLength] = uniforms;
-          const shadow2 = light2.shadow;
-          if (light2.map) {
-            state.spotLightMap[numSpotMaps] = light2.map;
+          const shadow2 = light.shadow;
+          if (light.map) {
+            state.spotLightMap[numSpotMaps] = light.map;
             numSpotMaps++;
-            shadow2.updateMatrices(light2);
-            if (light2.castShadow)
+            shadow2.updateMatrices(light);
+            if (light.castShadow)
               numSpotShadowsWithMaps++;
           }
           state.spotLightMatrix[spotLength] = shadow2.matrix;
-          if (light2.castShadow) {
-            const shadowUniforms = shadowCache.get(light2);
+          if (light.castShadow) {
+            const shadowUniforms = shadowCache.get(light);
             shadowUniforms.shadowBias = shadow2.bias;
             shadowUniforms.shadowNormalBias = shadow2.normalBias;
             shadowUniforms.shadowRadius = shadow2.radius;
@@ -20021,21 +20023,21 @@
             numSpotShadows++;
           }
           spotLength++;
-        } else if (light2.isRectAreaLight) {
-          const uniforms = cache.get(light2);
+        } else if (light.isRectAreaLight) {
+          const uniforms = cache.get(light);
           uniforms.color.copy(color).multiplyScalar(intensity);
-          uniforms.halfWidth.set(light2.width * 0.5, 0, 0);
-          uniforms.halfHeight.set(0, light2.height * 0.5, 0);
+          uniforms.halfWidth.set(light.width * 0.5, 0, 0);
+          uniforms.halfHeight.set(0, light.height * 0.5, 0);
           state.rectArea[rectAreaLength] = uniforms;
           rectAreaLength++;
-        } else if (light2.isPointLight) {
-          const uniforms = cache.get(light2);
-          uniforms.color.copy(light2.color).multiplyScalar(light2.intensity * scaleFactor);
-          uniforms.distance = light2.distance;
-          uniforms.decay = light2.decay;
-          if (light2.castShadow) {
-            const shadow2 = light2.shadow;
-            const shadowUniforms = shadowCache.get(light2);
+        } else if (light.isPointLight) {
+          const uniforms = cache.get(light);
+          uniforms.color.copy(light.color).multiplyScalar(light.intensity * scaleFactor);
+          uniforms.distance = light.distance;
+          uniforms.decay = light.decay;
+          if (light.castShadow) {
+            const shadow2 = light.shadow;
+            const shadowUniforms = shadowCache.get(light);
             shadowUniforms.shadowBias = shadow2.bias;
             shadowUniforms.shadowNormalBias = shadow2.normalBias;
             shadowUniforms.shadowRadius = shadow2.radius;
@@ -20044,15 +20046,15 @@
             shadowUniforms.shadowCameraFar = shadow2.camera.far;
             state.pointShadow[pointLength] = shadowUniforms;
             state.pointShadowMap[pointLength] = shadowMap;
-            state.pointShadowMatrix[pointLength] = light2.shadow.matrix;
+            state.pointShadowMatrix[pointLength] = light.shadow.matrix;
             numPointShadows++;
           }
           state.point[pointLength] = uniforms;
           pointLength++;
-        } else if (light2.isHemisphereLight) {
-          const uniforms = cache.get(light2);
-          uniforms.skyColor.copy(light2.color).multiplyScalar(intensity * scaleFactor);
-          uniforms.groundColor.copy(light2.groundColor).multiplyScalar(intensity * scaleFactor);
+        } else if (light.isHemisphereLight) {
+          const uniforms = cache.get(light);
+          uniforms.skyColor.copy(light.color).multiplyScalar(intensity * scaleFactor);
+          uniforms.groundColor.copy(light.groundColor).multiplyScalar(intensity * scaleFactor);
           state.hemi[hemiLength] = uniforms;
           hemiLength++;
         }
@@ -20114,44 +20116,44 @@
       let hemiLength = 0;
       const viewMatrix = camera2.matrixWorldInverse;
       for (let i = 0, l = lights.length; i < l; i++) {
-        const light2 = lights[i];
-        if (light2.isDirectionalLight) {
+        const light = lights[i];
+        if (light.isDirectionalLight) {
           const uniforms = state.directional[directionalLength];
-          uniforms.direction.setFromMatrixPosition(light2.matrixWorld);
-          vector3.setFromMatrixPosition(light2.target.matrixWorld);
+          uniforms.direction.setFromMatrixPosition(light.matrixWorld);
+          vector3.setFromMatrixPosition(light.target.matrixWorld);
           uniforms.direction.sub(vector3);
           uniforms.direction.transformDirection(viewMatrix);
           directionalLength++;
-        } else if (light2.isSpotLight) {
+        } else if (light.isSpotLight) {
           const uniforms = state.spot[spotLength];
-          uniforms.position.setFromMatrixPosition(light2.matrixWorld);
+          uniforms.position.setFromMatrixPosition(light.matrixWorld);
           uniforms.position.applyMatrix4(viewMatrix);
-          uniforms.direction.setFromMatrixPosition(light2.matrixWorld);
-          vector3.setFromMatrixPosition(light2.target.matrixWorld);
+          uniforms.direction.setFromMatrixPosition(light.matrixWorld);
+          vector3.setFromMatrixPosition(light.target.matrixWorld);
           uniforms.direction.sub(vector3);
           uniforms.direction.transformDirection(viewMatrix);
           spotLength++;
-        } else if (light2.isRectAreaLight) {
+        } else if (light.isRectAreaLight) {
           const uniforms = state.rectArea[rectAreaLength];
-          uniforms.position.setFromMatrixPosition(light2.matrixWorld);
+          uniforms.position.setFromMatrixPosition(light.matrixWorld);
           uniforms.position.applyMatrix4(viewMatrix);
           matrix42.identity();
-          matrix4.copy(light2.matrixWorld);
+          matrix4.copy(light.matrixWorld);
           matrix4.premultiply(viewMatrix);
           matrix42.extractRotation(matrix4);
-          uniforms.halfWidth.set(light2.width * 0.5, 0, 0);
-          uniforms.halfHeight.set(0, light2.height * 0.5, 0);
+          uniforms.halfWidth.set(light.width * 0.5, 0, 0);
+          uniforms.halfHeight.set(0, light.height * 0.5, 0);
           uniforms.halfWidth.applyMatrix4(matrix42);
           uniforms.halfHeight.applyMatrix4(matrix42);
           rectAreaLength++;
-        } else if (light2.isPointLight) {
+        } else if (light.isPointLight) {
           const uniforms = state.point[pointLength];
-          uniforms.position.setFromMatrixPosition(light2.matrixWorld);
+          uniforms.position.setFromMatrixPosition(light.matrixWorld);
           uniforms.position.applyMatrix4(viewMatrix);
           pointLength++;
-        } else if (light2.isHemisphereLight) {
+        } else if (light.isHemisphereLight) {
           const uniforms = state.hemi[hemiLength];
-          uniforms.direction.setFromMatrixPosition(light2.matrixWorld);
+          uniforms.direction.setFromMatrixPosition(light.matrixWorld);
           uniforms.direction.transformDirection(viewMatrix);
           hemiLength++;
         }
@@ -20171,8 +20173,8 @@
       lightsArray.length = 0;
       shadowsArray.length = 0;
     }
-    function pushLight(light2) {
-      lightsArray.push(light2);
+    function pushLight(light) {
+      lightsArray.push(light);
     }
     function pushShadow(shadowLight) {
       shadowsArray.push(shadowLight);
@@ -20326,10 +20328,10 @@
       const toVSM = _previousType !== VSMShadowMap && this.type === VSMShadowMap;
       const fromVSM = _previousType === VSMShadowMap && this.type !== VSMShadowMap;
       for (let i = 0, il = lights.length; i < il; i++) {
-        const light2 = lights[i];
-        const shadow2 = light2.shadow;
+        const light = lights[i];
+        const shadow2 = light.shadow;
         if (shadow2 === void 0) {
-          console.warn("THREE.WebGLShadowMap:", light2, "has no shadow.");
+          console.warn("THREE.WebGLShadowMap:", light, "has no shadow.");
           continue;
         }
         if (shadow2.autoUpdate === false && shadow2.needsUpdate === false)
@@ -20356,7 +20358,7 @@
             shadow2.map.dispose();
           }
           shadow2.map = new WebGLRenderTarget(_shadowMapSize.x, _shadowMapSize.y, pars);
-          shadow2.map.texture.name = light2.name + ".shadowMap";
+          shadow2.map.texture.name = light.name + ".shadowMap";
           shadow2.camera.updateProjectionMatrix();
         }
         _renderer.setRenderTarget(shadow2.map);
@@ -20371,9 +20373,9 @@
             _viewportSize.y * viewport2.w
           );
           _state.viewport(_viewport);
-          shadow2.updateMatrices(light2, vp);
+          shadow2.updateMatrices(light, vp);
           _frustum = shadow2.getFrustum();
-          renderObject(scene2, camera2, shadow2.camera, light2, this.type);
+          renderObject(scene2, camera2, shadow2.camera, light, this.type);
         }
         if (shadow2.isPointLightShadow !== true && this.type === VSMShadowMap) {
           VSMPass(shadow2, camera2);
@@ -20408,13 +20410,13 @@
       _renderer.clear();
       _renderer.renderBufferDirect(camera2, null, geometry, shadowMaterialHorizontal, fullScreenMesh, null);
     }
-    function getDepthMaterial(object, material, light2, type) {
+    function getDepthMaterial(object, material, light, type) {
       let result = null;
-      const customMaterial = light2.isPointLight === true ? object.customDistanceMaterial : object.customDepthMaterial;
+      const customMaterial = light.isPointLight === true ? object.customDistanceMaterial : object.customDepthMaterial;
       if (customMaterial !== void 0) {
         result = customMaterial;
       } else {
-        result = light2.isPointLight === true ? _distanceMaterial : _depthMaterial;
+        result = light.isPointLight === true ? _distanceMaterial : _depthMaterial;
         if (_renderer.localClippingEnabled && material.clipShadows === true && Array.isArray(material.clippingPlanes) && material.clippingPlanes.length !== 0 || material.displacementMap && material.displacementScale !== 0 || material.alphaMap && material.alphaTest > 0 || material.map && material.alphaTest > 0) {
           const keyA = result.uuid, keyB = material.uuid;
           let materialsForVariant = _materialCache[keyA];
@@ -20448,13 +20450,13 @@
       result.displacementBias = material.displacementBias;
       result.wireframeLinewidth = material.wireframeLinewidth;
       result.linewidth = material.linewidth;
-      if (light2.isPointLight === true && result.isMeshDistanceMaterial === true) {
+      if (light.isPointLight === true && result.isMeshDistanceMaterial === true) {
         const materialProperties = _renderer.properties.get(result);
-        materialProperties.light = light2;
+        materialProperties.light = light;
       }
       return result;
     }
-    function renderObject(object, camera2, shadowCamera, light2, type) {
+    function renderObject(object, camera2, shadowCamera, light, type) {
       if (object.visible === false)
         return;
       const visible = object.layers.test(camera2.layers);
@@ -20469,19 +20471,19 @@
               const group = groups[k];
               const groupMaterial = material[group.materialIndex];
               if (groupMaterial && groupMaterial.visible) {
-                const depthMaterial = getDepthMaterial(object, groupMaterial, light2, type);
+                const depthMaterial = getDepthMaterial(object, groupMaterial, light, type);
                 _renderer.renderBufferDirect(shadowCamera, null, geometry, depthMaterial, object, group);
               }
             }
           } else if (material.visible) {
-            const depthMaterial = getDepthMaterial(object, material, light2, type);
+            const depthMaterial = getDepthMaterial(object, material, light, type);
             _renderer.renderBufferDirect(shadowCamera, null, geometry, depthMaterial, object, null);
           }
         }
       }
       const children = object.children;
       for (let i = 0, l = children.length; i < l; i++) {
-        renderObject(children[i], camera2, shadowCamera, light2, type);
+        renderObject(children[i], camera2, shadowCamera, light, type);
       }
     }
   }
@@ -21258,13 +21260,13 @@
           const height = floor(scale * image.height);
           if (_canvas2 === void 0)
             _canvas2 = createCanvas(width, height);
-          const canvas = needsNewCanvas ? createCanvas(width, height) : _canvas2;
-          canvas.width = width;
-          canvas.height = height;
-          const context = canvas.getContext("2d");
+          const canvas2 = needsNewCanvas ? createCanvas(width, height) : _canvas2;
+          canvas2.width = width;
+          canvas2.height = height;
+          const context = canvas2.getContext("2d");
           context.drawImage(image, 0, 0, width, height);
           console.warn("THREE.WebGLRenderer: Texture has been resized from (" + image.width + "x" + image.height + ") to (" + width + "x" + height + ").");
-          return canvas;
+          return canvas2;
         } else {
           if ("data" in image) {
             console.warn("THREE.WebGLRenderer: Image in DataTexture is too big (" + image.width + "x" + image.height + ").");
@@ -23431,10 +23433,10 @@
       }
     }
     function refreshUniformsDistance(uniforms, material) {
-      const light2 = properties.get(material).light;
-      uniforms.referencePosition.value.setFromMatrixPosition(light2.matrixWorld);
-      uniforms.nearDistance.value = light2.shadow.camera.near;
-      uniforms.farDistance.value = light2.shadow.camera.far;
+      const light = properties.get(material).light;
+      uniforms.referencePosition.value.setFromMatrixPosition(light.matrixWorld);
+      uniforms.nearDistance.value = light.shadow.camera.near;
+      uniforms.farDistance.value = light.shadow.camera.far;
     }
     return {
       refreshFogUniforms,
@@ -23657,14 +23659,14 @@
     };
   }
   function createCanvasElement() {
-    const canvas = createElementNS("canvas");
-    canvas.style.display = "block";
-    return canvas;
+    const canvas2 = createElementNS("canvas");
+    canvas2.style.display = "block";
+    return canvas2;
   }
   var WebGLRenderer = class {
     constructor(parameters = {}) {
       const {
-        canvas = createCanvasElement(),
+        canvas: canvas2 = createCanvasElement(),
         context = null,
         depth = true,
         stencil = true,
@@ -23688,7 +23690,7 @@
       let currentRenderState = null;
       const renderListStack = [];
       const renderStateStack = [];
-      this.domElement = canvas;
+      this.domElement = canvas2;
       this.debug = {
         /**
          * Enables error checking and reporting when shader programs are being compiled
@@ -23724,8 +23726,8 @@
       let _currentScissorTest = null;
       const _currentClearColor = new Color(0);
       let _currentClearAlpha = 0;
-      let _width = canvas.width;
-      let _height = canvas.height;
+      let _width = canvas2.width;
+      let _height = canvas2.height;
       let _pixelRatio = 1;
       let _opaqueSort = null;
       let _transparentSort = null;
@@ -23747,7 +23749,7 @@
       function getContext(contextNames, contextAttributes) {
         for (let i = 0; i < contextNames.length; i++) {
           const contextName = contextNames[i];
-          const context2 = canvas.getContext(contextName, contextAttributes);
+          const context2 = canvas2.getContext(contextName, contextAttributes);
           if (context2 !== null)
             return context2;
         }
@@ -23764,11 +23766,11 @@
           powerPreference,
           failIfMajorPerformanceCaveat
         };
-        if ("setAttribute" in canvas)
-          canvas.setAttribute("data-engine", `three.js r${REVISION}`);
-        canvas.addEventListener("webglcontextlost", onContextLost, false);
-        canvas.addEventListener("webglcontextrestored", onContextRestore, false);
-        canvas.addEventListener("webglcontextcreationerror", onContextCreationError, false);
+        if ("setAttribute" in canvas2)
+          canvas2.setAttribute("data-engine", `three.js r${REVISION}`);
+        canvas2.addEventListener("webglcontextlost", onContextLost, false);
+        canvas2.addEventListener("webglcontextrestored", onContextRestore, false);
+        canvas2.addEventListener("webglcontextcreationerror", onContextCreationError, false);
         if (_gl === null) {
           const contextNames = ["webgl2", "webgl", "experimental-webgl"];
           if (_this.isWebGL1Renderer === true) {
@@ -23873,11 +23875,11 @@
         }
         _width = width;
         _height = height;
-        canvas.width = Math.floor(width * _pixelRatio);
-        canvas.height = Math.floor(height * _pixelRatio);
+        canvas2.width = Math.floor(width * _pixelRatio);
+        canvas2.height = Math.floor(height * _pixelRatio);
         if (updateStyle === true) {
-          canvas.style.width = width + "px";
-          canvas.style.height = height + "px";
+          canvas2.style.width = width + "px";
+          canvas2.style.height = height + "px";
         }
         this.setViewport(0, 0, width, height);
       };
@@ -23888,8 +23890,8 @@
         _width = width;
         _height = height;
         _pixelRatio = pixelRatio;
-        canvas.width = Math.floor(width * pixelRatio);
-        canvas.height = Math.floor(height * pixelRatio);
+        canvas2.width = Math.floor(width * pixelRatio);
+        canvas2.height = Math.floor(height * pixelRatio);
         this.setViewport(0, 0, width, height);
       };
       this.getCurrentViewport = function(target) {
@@ -23990,9 +23992,9 @@
         this.clear(false, false, true);
       };
       this.dispose = function() {
-        canvas.removeEventListener("webglcontextlost", onContextLost, false);
-        canvas.removeEventListener("webglcontextrestored", onContextRestore, false);
-        canvas.removeEventListener("webglcontextcreationerror", onContextCreationError, false);
+        canvas2.removeEventListener("webglcontextlost", onContextLost, false);
+        canvas2.removeEventListener("webglcontextrestored", onContextRestore, false);
+        canvas2.removeEventListener("webglcontextcreationerror", onContextCreationError, false);
         renderLists.dispose();
         renderStates.dispose();
         properties.dispose();
@@ -25064,6 +25066,80 @@
       return new _SphereGeometry(data.radius, data.widthSegments, data.heightSegments, data.phiStart, data.phiLength, data.thetaStart, data.thetaLength);
     }
   };
+  var MeshStandardMaterial = class extends Material {
+    constructor(parameters) {
+      super();
+      this.isMeshStandardMaterial = true;
+      this.defines = { "STANDARD": "" };
+      this.type = "MeshStandardMaterial";
+      this.color = new Color(16777215);
+      this.roughness = 1;
+      this.metalness = 0;
+      this.map = null;
+      this.lightMap = null;
+      this.lightMapIntensity = 1;
+      this.aoMap = null;
+      this.aoMapIntensity = 1;
+      this.emissive = new Color(0);
+      this.emissiveIntensity = 1;
+      this.emissiveMap = null;
+      this.bumpMap = null;
+      this.bumpScale = 1;
+      this.normalMap = null;
+      this.normalMapType = TangentSpaceNormalMap;
+      this.normalScale = new Vector2(1, 1);
+      this.displacementMap = null;
+      this.displacementScale = 1;
+      this.displacementBias = 0;
+      this.roughnessMap = null;
+      this.metalnessMap = null;
+      this.alphaMap = null;
+      this.envMap = null;
+      this.envMapIntensity = 1;
+      this.wireframe = false;
+      this.wireframeLinewidth = 1;
+      this.wireframeLinecap = "round";
+      this.wireframeLinejoin = "round";
+      this.flatShading = false;
+      this.fog = true;
+      this.setValues(parameters);
+    }
+    copy(source) {
+      super.copy(source);
+      this.defines = { "STANDARD": "" };
+      this.color.copy(source.color);
+      this.roughness = source.roughness;
+      this.metalness = source.metalness;
+      this.map = source.map;
+      this.lightMap = source.lightMap;
+      this.lightMapIntensity = source.lightMapIntensity;
+      this.aoMap = source.aoMap;
+      this.aoMapIntensity = source.aoMapIntensity;
+      this.emissive.copy(source.emissive);
+      this.emissiveMap = source.emissiveMap;
+      this.emissiveIntensity = source.emissiveIntensity;
+      this.bumpMap = source.bumpMap;
+      this.bumpScale = source.bumpScale;
+      this.normalMap = source.normalMap;
+      this.normalMapType = source.normalMapType;
+      this.normalScale.copy(source.normalScale);
+      this.displacementMap = source.displacementMap;
+      this.displacementScale = source.displacementScale;
+      this.displacementBias = source.displacementBias;
+      this.roughnessMap = source.roughnessMap;
+      this.metalnessMap = source.metalnessMap;
+      this.alphaMap = source.alphaMap;
+      this.envMap = source.envMap;
+      this.envMapIntensity = source.envMapIntensity;
+      this.wireframe = source.wireframe;
+      this.wireframeLinewidth = source.wireframeLinewidth;
+      this.wireframeLinecap = source.wireframeLinecap;
+      this.wireframeLinejoin = source.wireframeLinejoin;
+      this.flatShading = source.flatShading;
+      this.fog = source.fog;
+      return this;
+    }
+  };
   function arraySlice(array, from, to) {
     if (isTypedArray(array)) {
       return new array.constructor(array.subarray(from, to !== void 0 ? to : array.length));
@@ -25543,6 +25619,26 @@
   var VectorKeyframeTrack = class extends KeyframeTrack {
   };
   VectorKeyframeTrack.prototype.ValueTypeName = "vector";
+  var Cache = {
+    enabled: false,
+    files: {},
+    add: function(key, file) {
+      if (this.enabled === false)
+        return;
+      this.files[key] = file;
+    },
+    get: function(key) {
+      if (this.enabled === false)
+        return;
+      return this.files[key];
+    },
+    remove: function(key) {
+      delete this.files[key];
+    },
+    clear: function() {
+      this.files = {};
+    }
+  };
   var LoadingManager = class {
     constructor(onLoad, onProgress, onError) {
       const scope = this;
@@ -25658,163 +25754,72 @@
     }
   };
   Loader.DEFAULT_MATERIAL_NAME = "__DEFAULT";
-  var Light = class extends Object3D {
-    constructor(color, intensity = 1) {
-      super();
-      this.isLight = true;
-      this.type = "Light";
-      this.color = new Color(color);
-      this.intensity = intensity;
+  var ImageLoader = class extends Loader {
+    constructor(manager) {
+      super(manager);
     }
-    dispose() {
-    }
-    copy(source, recursive) {
-      super.copy(source, recursive);
-      this.color.copy(source.color);
-      this.intensity = source.intensity;
-      return this;
-    }
-    toJSON(meta) {
-      const data = super.toJSON(meta);
-      data.object.color = this.color.getHex();
-      data.object.intensity = this.intensity;
-      if (this.groundColor !== void 0)
-        data.object.groundColor = this.groundColor.getHex();
-      if (this.distance !== void 0)
-        data.object.distance = this.distance;
-      if (this.angle !== void 0)
-        data.object.angle = this.angle;
-      if (this.decay !== void 0)
-        data.object.decay = this.decay;
-      if (this.penumbra !== void 0)
-        data.object.penumbra = this.penumbra;
-      if (this.shadow !== void 0)
-        data.object.shadow = this.shadow.toJSON();
-      return data;
-    }
-  };
-  var _projScreenMatrix$1 = /* @__PURE__ */ new Matrix4();
-  var _lightPositionWorld$1 = /* @__PURE__ */ new Vector3();
-  var _lookTarget$1 = /* @__PURE__ */ new Vector3();
-  var LightShadow = class {
-    constructor(camera2) {
-      this.camera = camera2;
-      this.bias = 0;
-      this.normalBias = 0;
-      this.radius = 1;
-      this.blurSamples = 8;
-      this.mapSize = new Vector2(512, 512);
-      this.map = null;
-      this.mapPass = null;
-      this.matrix = new Matrix4();
-      this.autoUpdate = true;
-      this.needsUpdate = false;
-      this._frustum = new Frustum();
-      this._frameExtents = new Vector2(1, 1);
-      this._viewportCount = 1;
-      this._viewports = [
-        new Vector4(0, 0, 1, 1)
-      ];
-    }
-    getViewportCount() {
-      return this._viewportCount;
-    }
-    getFrustum() {
-      return this._frustum;
-    }
-    updateMatrices(light2) {
-      const shadowCamera = this.camera;
-      const shadowMatrix = this.matrix;
-      _lightPositionWorld$1.setFromMatrixPosition(light2.matrixWorld);
-      shadowCamera.position.copy(_lightPositionWorld$1);
-      _lookTarget$1.setFromMatrixPosition(light2.target.matrixWorld);
-      shadowCamera.lookAt(_lookTarget$1);
-      shadowCamera.updateMatrixWorld();
-      _projScreenMatrix$1.multiplyMatrices(shadowCamera.projectionMatrix, shadowCamera.matrixWorldInverse);
-      this._frustum.setFromProjectionMatrix(_projScreenMatrix$1);
-      shadowMatrix.set(
-        0.5,
-        0,
-        0,
-        0.5,
-        0,
-        0.5,
-        0,
-        0.5,
-        0,
-        0,
-        0.5,
-        0.5,
-        0,
-        0,
-        0,
-        1
-      );
-      shadowMatrix.multiply(_projScreenMatrix$1);
-    }
-    getViewport(viewportIndex) {
-      return this._viewports[viewportIndex];
-    }
-    getFrameExtents() {
-      return this._frameExtents;
-    }
-    dispose() {
-      if (this.map) {
-        this.map.dispose();
+    load(url, onLoad, onProgress, onError) {
+      if (this.path !== void 0)
+        url = this.path + url;
+      url = this.manager.resolveURL(url);
+      const scope = this;
+      const cached = Cache.get(url);
+      if (cached !== void 0) {
+        scope.manager.itemStart(url);
+        setTimeout(function() {
+          if (onLoad)
+            onLoad(cached);
+          scope.manager.itemEnd(url);
+        }, 0);
+        return cached;
       }
-      if (this.mapPass) {
-        this.mapPass.dispose();
+      const image = createElementNS("img");
+      function onImageLoad() {
+        removeEventListeners();
+        Cache.add(url, this);
+        if (onLoad)
+          onLoad(this);
+        scope.manager.itemEnd(url);
       }
-    }
-    copy(source) {
-      this.camera = source.camera.clone();
-      this.bias = source.bias;
-      this.radius = source.radius;
-      this.mapSize.copy(source.mapSize);
-      return this;
-    }
-    clone() {
-      return new this.constructor().copy(this);
-    }
-    toJSON() {
-      const object = {};
-      if (this.bias !== 0)
-        object.bias = this.bias;
-      if (this.normalBias !== 0)
-        object.normalBias = this.normalBias;
-      if (this.radius !== 1)
-        object.radius = this.radius;
-      if (this.mapSize.x !== 512 || this.mapSize.y !== 512)
-        object.mapSize = this.mapSize.toArray();
-      object.camera = this.camera.toJSON(false).object;
-      delete object.camera.matrix;
-      return object;
+      function onImageError(event) {
+        removeEventListeners();
+        if (onError)
+          onError(event);
+        scope.manager.itemError(url);
+        scope.manager.itemEnd(url);
+      }
+      function removeEventListeners() {
+        image.removeEventListener("load", onImageLoad, false);
+        image.removeEventListener("error", onImageError, false);
+      }
+      image.addEventListener("load", onImageLoad, false);
+      image.addEventListener("error", onImageError, false);
+      if (url.slice(0, 5) !== "data:") {
+        if (this.crossOrigin !== void 0)
+          image.crossOrigin = this.crossOrigin;
+      }
+      scope.manager.itemStart(url);
+      image.src = url;
+      return image;
     }
   };
-  var DirectionalLightShadow = class extends LightShadow {
-    constructor() {
-      super(new OrthographicCamera(-5, 5, 5, -5, 0.5, 500));
-      this.isDirectionalLightShadow = true;
+  var TextureLoader = class extends Loader {
+    constructor(manager) {
+      super(manager);
     }
-  };
-  var DirectionalLight = class extends Light {
-    constructor(color, intensity) {
-      super(color, intensity);
-      this.isDirectionalLight = true;
-      this.type = "DirectionalLight";
-      this.position.copy(Object3D.DEFAULT_UP);
-      this.updateMatrix();
-      this.target = new Object3D();
-      this.shadow = new DirectionalLightShadow();
-    }
-    dispose() {
-      this.shadow.dispose();
-    }
-    copy(source) {
-      super.copy(source);
-      this.target = source.target.clone();
-      this.shadow = source.shadow.clone();
-      return this;
+    load(url, onLoad, onProgress, onError) {
+      const texture = new Texture();
+      const loader = new ImageLoader(this.manager);
+      loader.setCrossOrigin(this.crossOrigin);
+      loader.setPath(this.path);
+      loader.load(url, function(image) {
+        texture.image = image;
+        texture.needsUpdate = true;
+        if (onLoad !== void 0) {
+          onLoad(texture);
+        }
+      }, onProgress, onError);
+      return texture;
     }
   };
   var _RESERVED_CHARS_RE = "\\[\\]\\.:\\/";
@@ -26197,6 +26202,49 @@
     ]
   ];
   var _controlInterpolantsResultBuffer = new Float32Array(1);
+  var Spherical = class {
+    constructor(radius = 1, phi = 0, theta = 0) {
+      this.radius = radius;
+      this.phi = phi;
+      this.theta = theta;
+      return this;
+    }
+    set(radius, phi, theta) {
+      this.radius = radius;
+      this.phi = phi;
+      this.theta = theta;
+      return this;
+    }
+    copy(other) {
+      this.radius = other.radius;
+      this.phi = other.phi;
+      this.theta = other.theta;
+      return this;
+    }
+    // restrict phi to be between EPS and PI-EPS
+    makeSafe() {
+      const EPS = 1e-6;
+      this.phi = Math.max(EPS, Math.min(Math.PI - EPS, this.phi));
+      return this;
+    }
+    setFromVector3(v) {
+      return this.setFromCartesianCoords(v.x, v.y, v.z);
+    }
+    setFromCartesianCoords(x, y, z) {
+      this.radius = Math.sqrt(x * x + y * y + z * z);
+      if (this.radius === 0) {
+        this.theta = 0;
+        this.phi = 0;
+      } else {
+        this.theta = Math.atan2(x, z);
+        this.phi = Math.acos(clamp(y / this.radius, -1, 1));
+      }
+      return this;
+    }
+    clone() {
+      return new this.constructor().copy(this);
+    }
+  };
   if (typeof __THREE_DEVTOOLS__ !== "undefined") {
     __THREE_DEVTOOLS__.dispatchEvent(new CustomEvent("register", { detail: {
       revision: REVISION
@@ -26210,58 +26258,1215 @@
     }
   }
 
-  // app/javascript/rain.js
-  var scene = new Scene();
-  var renderer = new WebGLRenderer();
-  var container = document.getElementById("canvas-container");
-  var camera = new PerspectiveCamera(70, container.offsetWidth / container.offsetHeight, 0.1, 1e3);
-  renderer.setSize(container.offsetWidth, container.offsetHeight);
-  container.appendChild(renderer.domElement);
-  var light = new DirectionalLight(16777215);
-  light.position.set(0, 1, 1).normalize();
-  scene.add(light);
-  var waterGeometry = new PlaneGeometry(10, 10, 100, 100);
-  var waterMaterial = new ShaderMaterial({
-    uniforms: {
-      amplitude: { value: 0.4 },
-      speed: { value: 0.1 }
-    },
-    vertexShader: `
-    uniform float amplitude;
-    uniform float speed;
-    varying vec2 vUv;
-
-    void main() {
-      vUv = uv;
-      vec3 transformed = position.xyz;
-      transformed.z += sin(transformed.x * speed + transformed.y * speed) * amplitude;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(transformed, 1.0);
+  // node_modules/three/examples/jsm/controls/OrbitControls.js
+  var _changeEvent = { type: "change" };
+  var _startEvent = { type: "start" };
+  var _endEvent = { type: "end" };
+  var OrbitControls = class extends EventDispatcher {
+    constructor(object, domElement) {
+      super();
+      this.object = object;
+      this.domElement = domElement;
+      this.domElement.style.touchAction = "none";
+      this.enabled = true;
+      this.target = new Vector3();
+      this.minDistance = 0;
+      this.maxDistance = Infinity;
+      this.minZoom = 0;
+      this.maxZoom = Infinity;
+      this.minPolarAngle = 0;
+      this.maxPolarAngle = Math.PI;
+      this.minAzimuthAngle = -Infinity;
+      this.maxAzimuthAngle = Infinity;
+      this.enableDamping = false;
+      this.dampingFactor = 0.05;
+      this.enableZoom = true;
+      this.zoomSpeed = 1;
+      this.enableRotate = true;
+      this.rotateSpeed = 1;
+      this.enablePan = true;
+      this.panSpeed = 1;
+      this.screenSpacePanning = true;
+      this.keyPanSpeed = 7;
+      this.autoRotate = false;
+      this.autoRotateSpeed = 2;
+      this.keys = { LEFT: "ArrowLeft", UP: "ArrowUp", RIGHT: "ArrowRight", BOTTOM: "ArrowDown" };
+      this.mouseButtons = { LEFT: MOUSE.ROTATE, MIDDLE: MOUSE.DOLLY, RIGHT: MOUSE.PAN };
+      this.touches = { ONE: TOUCH.ROTATE, TWO: TOUCH.DOLLY_PAN };
+      this.target0 = this.target.clone();
+      this.position0 = this.object.position.clone();
+      this.zoom0 = this.object.zoom;
+      this._domElementKeyEvents = null;
+      this.getPolarAngle = function() {
+        return spherical.phi;
+      };
+      this.getAzimuthalAngle = function() {
+        return spherical.theta;
+      };
+      this.getDistance = function() {
+        return this.object.position.distanceTo(this.target);
+      };
+      this.listenToKeyEvents = function(domElement2) {
+        domElement2.addEventListener("keydown", onKeyDown);
+        this._domElementKeyEvents = domElement2;
+      };
+      this.stopListenToKeyEvents = function() {
+        this._domElementKeyEvents.removeEventListener("keydown", onKeyDown);
+        this._domElementKeyEvents = null;
+      };
+      this.saveState = function() {
+        scope.target0.copy(scope.target);
+        scope.position0.copy(scope.object.position);
+        scope.zoom0 = scope.object.zoom;
+      };
+      this.reset = function() {
+        scope.target.copy(scope.target0);
+        scope.object.position.copy(scope.position0);
+        scope.object.zoom = scope.zoom0;
+        scope.object.updateProjectionMatrix();
+        scope.dispatchEvent(_changeEvent);
+        scope.update();
+        state = STATE.NONE;
+      };
+      this.update = function() {
+        const offset2 = new Vector3();
+        const quat = new Quaternion().setFromUnitVectors(object.up, new Vector3(0, 1, 0));
+        const quatInverse = quat.clone().invert();
+        const lastPosition = new Vector3();
+        const lastQuaternion = new Quaternion();
+        const lastTargetPosition = new Vector3();
+        const twoPI = 2 * Math.PI;
+        return function update() {
+          const position = scope.object.position;
+          offset2.copy(position).sub(scope.target);
+          offset2.applyQuaternion(quat);
+          spherical.setFromVector3(offset2);
+          if (scope.autoRotate && state === STATE.NONE) {
+            rotateLeft(getAutoRotationAngle());
+          }
+          if (scope.enableDamping) {
+            spherical.theta += sphericalDelta.theta * scope.dampingFactor;
+            spherical.phi += sphericalDelta.phi * scope.dampingFactor;
+          } else {
+            spherical.theta += sphericalDelta.theta;
+            spherical.phi += sphericalDelta.phi;
+          }
+          let min2 = scope.minAzimuthAngle;
+          let max2 = scope.maxAzimuthAngle;
+          if (isFinite(min2) && isFinite(max2)) {
+            if (min2 < -Math.PI)
+              min2 += twoPI;
+            else if (min2 > Math.PI)
+              min2 -= twoPI;
+            if (max2 < -Math.PI)
+              max2 += twoPI;
+            else if (max2 > Math.PI)
+              max2 -= twoPI;
+            if (min2 <= max2) {
+              spherical.theta = Math.max(min2, Math.min(max2, spherical.theta));
+            } else {
+              spherical.theta = spherical.theta > (min2 + max2) / 2 ? Math.max(min2, spherical.theta) : Math.min(max2, spherical.theta);
+            }
+          }
+          spherical.phi = Math.max(scope.minPolarAngle, Math.min(scope.maxPolarAngle, spherical.phi));
+          spherical.makeSafe();
+          spherical.radius *= scale;
+          spherical.radius = Math.max(scope.minDistance, Math.min(scope.maxDistance, spherical.radius));
+          if (scope.enableDamping === true) {
+            scope.target.addScaledVector(panOffset, scope.dampingFactor);
+          } else {
+            scope.target.add(panOffset);
+          }
+          offset2.setFromSpherical(spherical);
+          offset2.applyQuaternion(quatInverse);
+          position.copy(scope.target).add(offset2);
+          scope.object.lookAt(scope.target);
+          if (scope.enableDamping === true) {
+            sphericalDelta.theta *= 1 - scope.dampingFactor;
+            sphericalDelta.phi *= 1 - scope.dampingFactor;
+            panOffset.multiplyScalar(1 - scope.dampingFactor);
+          } else {
+            sphericalDelta.set(0, 0, 0);
+            panOffset.set(0, 0, 0);
+          }
+          scale = 1;
+          if (zoomChanged || lastPosition.distanceToSquared(scope.object.position) > EPS || 8 * (1 - lastQuaternion.dot(scope.object.quaternion)) > EPS || lastTargetPosition.distanceToSquared(scope.target) > 0) {
+            scope.dispatchEvent(_changeEvent);
+            lastPosition.copy(scope.object.position);
+            lastQuaternion.copy(scope.object.quaternion);
+            lastTargetPosition.copy(scope.target);
+            zoomChanged = false;
+            return true;
+          }
+          return false;
+        };
+      }();
+      this.dispose = function() {
+        scope.domElement.removeEventListener("contextmenu", onContextMenu);
+        scope.domElement.removeEventListener("pointerdown", onPointerDown);
+        scope.domElement.removeEventListener("pointercancel", onPointerUp);
+        scope.domElement.removeEventListener("wheel", onMouseWheel);
+        scope.domElement.removeEventListener("pointermove", onPointerMove);
+        scope.domElement.removeEventListener("pointerup", onPointerUp);
+        if (scope._domElementKeyEvents !== null) {
+          scope._domElementKeyEvents.removeEventListener("keydown", onKeyDown);
+          scope._domElementKeyEvents = null;
+        }
+      };
+      const scope = this;
+      const STATE = {
+        NONE: -1,
+        ROTATE: 0,
+        DOLLY: 1,
+        PAN: 2,
+        TOUCH_ROTATE: 3,
+        TOUCH_PAN: 4,
+        TOUCH_DOLLY_PAN: 5,
+        TOUCH_DOLLY_ROTATE: 6
+      };
+      let state = STATE.NONE;
+      const EPS = 1e-6;
+      const spherical = new Spherical();
+      const sphericalDelta = new Spherical();
+      let scale = 1;
+      const panOffset = new Vector3();
+      let zoomChanged = false;
+      const rotateStart = new Vector2();
+      const rotateEnd = new Vector2();
+      const rotateDelta = new Vector2();
+      const panStart = new Vector2();
+      const panEnd = new Vector2();
+      const panDelta = new Vector2();
+      const dollyStart = new Vector2();
+      const dollyEnd = new Vector2();
+      const dollyDelta = new Vector2();
+      const pointers = [];
+      const pointerPositions = {};
+      function getAutoRotationAngle() {
+        return 2 * Math.PI / 60 / 60 * scope.autoRotateSpeed;
+      }
+      function getZoomScale() {
+        return Math.pow(0.95, scope.zoomSpeed);
+      }
+      function rotateLeft(angle) {
+        sphericalDelta.theta -= angle;
+      }
+      function rotateUp(angle) {
+        sphericalDelta.phi -= angle;
+      }
+      const panLeft = function() {
+        const v = new Vector3();
+        return function panLeft2(distance, objectMatrix) {
+          v.setFromMatrixColumn(objectMatrix, 0);
+          v.multiplyScalar(-distance);
+          panOffset.add(v);
+        };
+      }();
+      const panUp = function() {
+        const v = new Vector3();
+        return function panUp2(distance, objectMatrix) {
+          if (scope.screenSpacePanning === true) {
+            v.setFromMatrixColumn(objectMatrix, 1);
+          } else {
+            v.setFromMatrixColumn(objectMatrix, 0);
+            v.crossVectors(scope.object.up, v);
+          }
+          v.multiplyScalar(distance);
+          panOffset.add(v);
+        };
+      }();
+      const pan = function() {
+        const offset2 = new Vector3();
+        return function pan2(deltaX, deltaY) {
+          const element = scope.domElement;
+          if (scope.object.isPerspectiveCamera) {
+            const position = scope.object.position;
+            offset2.copy(position).sub(scope.target);
+            let targetDistance = offset2.length();
+            targetDistance *= Math.tan(scope.object.fov / 2 * Math.PI / 180);
+            panLeft(2 * deltaX * targetDistance / element.clientHeight, scope.object.matrix);
+            panUp(2 * deltaY * targetDistance / element.clientHeight, scope.object.matrix);
+          } else if (scope.object.isOrthographicCamera) {
+            panLeft(deltaX * (scope.object.right - scope.object.left) / scope.object.zoom / element.clientWidth, scope.object.matrix);
+            panUp(deltaY * (scope.object.top - scope.object.bottom) / scope.object.zoom / element.clientHeight, scope.object.matrix);
+          } else {
+            console.warn("WARNING: OrbitControls.js encountered an unknown camera type - pan disabled.");
+            scope.enablePan = false;
+          }
+        };
+      }();
+      function dollyOut(dollyScale) {
+        if (scope.object.isPerspectiveCamera) {
+          scale /= dollyScale;
+        } else if (scope.object.isOrthographicCamera) {
+          scope.object.zoom = Math.max(scope.minZoom, Math.min(scope.maxZoom, scope.object.zoom * dollyScale));
+          scope.object.updateProjectionMatrix();
+          zoomChanged = true;
+        } else {
+          console.warn("WARNING: OrbitControls.js encountered an unknown camera type - dolly/zoom disabled.");
+          scope.enableZoom = false;
+        }
+      }
+      function dollyIn(dollyScale) {
+        if (scope.object.isPerspectiveCamera) {
+          scale *= dollyScale;
+        } else if (scope.object.isOrthographicCamera) {
+          scope.object.zoom = Math.max(scope.minZoom, Math.min(scope.maxZoom, scope.object.zoom / dollyScale));
+          scope.object.updateProjectionMatrix();
+          zoomChanged = true;
+        } else {
+          console.warn("WARNING: OrbitControls.js encountered an unknown camera type - dolly/zoom disabled.");
+          scope.enableZoom = false;
+        }
+      }
+      function handleMouseDownRotate(event) {
+        rotateStart.set(event.clientX, event.clientY);
+      }
+      function handleMouseDownDolly(event) {
+        dollyStart.set(event.clientX, event.clientY);
+      }
+      function handleMouseDownPan(event) {
+        panStart.set(event.clientX, event.clientY);
+      }
+      function handleMouseMoveRotate(event) {
+        rotateEnd.set(event.clientX, event.clientY);
+        rotateDelta.subVectors(rotateEnd, rotateStart).multiplyScalar(scope.rotateSpeed);
+        const element = scope.domElement;
+        rotateLeft(2 * Math.PI * rotateDelta.x / element.clientHeight);
+        rotateUp(2 * Math.PI * rotateDelta.y / element.clientHeight);
+        rotateStart.copy(rotateEnd);
+        scope.update();
+      }
+      function handleMouseMoveDolly(event) {
+        dollyEnd.set(event.clientX, event.clientY);
+        dollyDelta.subVectors(dollyEnd, dollyStart);
+        if (dollyDelta.y > 0) {
+          dollyOut(getZoomScale());
+        } else if (dollyDelta.y < 0) {
+          dollyIn(getZoomScale());
+        }
+        dollyStart.copy(dollyEnd);
+        scope.update();
+      }
+      function handleMouseMovePan(event) {
+        panEnd.set(event.clientX, event.clientY);
+        panDelta.subVectors(panEnd, panStart).multiplyScalar(scope.panSpeed);
+        pan(panDelta.x, panDelta.y);
+        panStart.copy(panEnd);
+        scope.update();
+      }
+      function handleMouseWheel(event) {
+        if (event.deltaY < 0) {
+          dollyIn(getZoomScale());
+        } else if (event.deltaY > 0) {
+          dollyOut(getZoomScale());
+        }
+        scope.update();
+      }
+      function handleKeyDown(event) {
+        let needsUpdate = false;
+        switch (event.code) {
+          case scope.keys.UP:
+            if (event.ctrlKey || event.metaKey || event.shiftKey) {
+              rotateUp(2 * Math.PI * scope.rotateSpeed / scope.domElement.clientHeight);
+            } else {
+              pan(0, scope.keyPanSpeed);
+            }
+            needsUpdate = true;
+            break;
+          case scope.keys.BOTTOM:
+            if (event.ctrlKey || event.metaKey || event.shiftKey) {
+              rotateUp(-2 * Math.PI * scope.rotateSpeed / scope.domElement.clientHeight);
+            } else {
+              pan(0, -scope.keyPanSpeed);
+            }
+            needsUpdate = true;
+            break;
+          case scope.keys.LEFT:
+            if (event.ctrlKey || event.metaKey || event.shiftKey) {
+              rotateLeft(2 * Math.PI * scope.rotateSpeed / scope.domElement.clientHeight);
+            } else {
+              pan(scope.keyPanSpeed, 0);
+            }
+            needsUpdate = true;
+            break;
+          case scope.keys.RIGHT:
+            if (event.ctrlKey || event.metaKey || event.shiftKey) {
+              rotateLeft(-2 * Math.PI * scope.rotateSpeed / scope.domElement.clientHeight);
+            } else {
+              pan(-scope.keyPanSpeed, 0);
+            }
+            needsUpdate = true;
+            break;
+        }
+        if (needsUpdate) {
+          event.preventDefault();
+          scope.update();
+        }
+      }
+      function handleTouchStartRotate() {
+        if (pointers.length === 1) {
+          rotateStart.set(pointers[0].pageX, pointers[0].pageY);
+        } else {
+          const x = 0.5 * (pointers[0].pageX + pointers[1].pageX);
+          const y = 0.5 * (pointers[0].pageY + pointers[1].pageY);
+          rotateStart.set(x, y);
+        }
+      }
+      function handleTouchStartPan() {
+        if (pointers.length === 1) {
+          panStart.set(pointers[0].pageX, pointers[0].pageY);
+        } else {
+          const x = 0.5 * (pointers[0].pageX + pointers[1].pageX);
+          const y = 0.5 * (pointers[0].pageY + pointers[1].pageY);
+          panStart.set(x, y);
+        }
+      }
+      function handleTouchStartDolly() {
+        const dx = pointers[0].pageX - pointers[1].pageX;
+        const dy = pointers[0].pageY - pointers[1].pageY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        dollyStart.set(0, distance);
+      }
+      function handleTouchStartDollyPan() {
+        if (scope.enableZoom)
+          handleTouchStartDolly();
+        if (scope.enablePan)
+          handleTouchStartPan();
+      }
+      function handleTouchStartDollyRotate() {
+        if (scope.enableZoom)
+          handleTouchStartDolly();
+        if (scope.enableRotate)
+          handleTouchStartRotate();
+      }
+      function handleTouchMoveRotate(event) {
+        if (pointers.length == 1) {
+          rotateEnd.set(event.pageX, event.pageY);
+        } else {
+          const position = getSecondPointerPosition(event);
+          const x = 0.5 * (event.pageX + position.x);
+          const y = 0.5 * (event.pageY + position.y);
+          rotateEnd.set(x, y);
+        }
+        rotateDelta.subVectors(rotateEnd, rotateStart).multiplyScalar(scope.rotateSpeed);
+        const element = scope.domElement;
+        rotateLeft(2 * Math.PI * rotateDelta.x / element.clientHeight);
+        rotateUp(2 * Math.PI * rotateDelta.y / element.clientHeight);
+        rotateStart.copy(rotateEnd);
+      }
+      function handleTouchMovePan(event) {
+        if (pointers.length === 1) {
+          panEnd.set(event.pageX, event.pageY);
+        } else {
+          const position = getSecondPointerPosition(event);
+          const x = 0.5 * (event.pageX + position.x);
+          const y = 0.5 * (event.pageY + position.y);
+          panEnd.set(x, y);
+        }
+        panDelta.subVectors(panEnd, panStart).multiplyScalar(scope.panSpeed);
+        pan(panDelta.x, panDelta.y);
+        panStart.copy(panEnd);
+      }
+      function handleTouchMoveDolly(event) {
+        const position = getSecondPointerPosition(event);
+        const dx = event.pageX - position.x;
+        const dy = event.pageY - position.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        dollyEnd.set(0, distance);
+        dollyDelta.set(0, Math.pow(dollyEnd.y / dollyStart.y, scope.zoomSpeed));
+        dollyOut(dollyDelta.y);
+        dollyStart.copy(dollyEnd);
+      }
+      function handleTouchMoveDollyPan(event) {
+        if (scope.enableZoom)
+          handleTouchMoveDolly(event);
+        if (scope.enablePan)
+          handleTouchMovePan(event);
+      }
+      function handleTouchMoveDollyRotate(event) {
+        if (scope.enableZoom)
+          handleTouchMoveDolly(event);
+        if (scope.enableRotate)
+          handleTouchMoveRotate(event);
+      }
+      function onPointerDown(event) {
+        if (scope.enabled === false)
+          return;
+        if (pointers.length === 0) {
+          scope.domElement.setPointerCapture(event.pointerId);
+          scope.domElement.addEventListener("pointermove", onPointerMove);
+          scope.domElement.addEventListener("pointerup", onPointerUp);
+        }
+        addPointer(event);
+        if (event.pointerType === "touch") {
+          onTouchStart(event);
+        } else {
+          onMouseDown(event);
+        }
+      }
+      function onPointerMove(event) {
+        if (scope.enabled === false)
+          return;
+        if (event.pointerType === "touch") {
+          onTouchMove(event);
+        } else {
+          onMouseMove(event);
+        }
+      }
+      function onPointerUp(event) {
+        removePointer(event);
+        if (pointers.length === 0) {
+          scope.domElement.releasePointerCapture(event.pointerId);
+          scope.domElement.removeEventListener("pointermove", onPointerMove);
+          scope.domElement.removeEventListener("pointerup", onPointerUp);
+        }
+        scope.dispatchEvent(_endEvent);
+        state = STATE.NONE;
+      }
+      function onMouseDown(event) {
+        let mouseAction;
+        switch (event.button) {
+          case 0:
+            mouseAction = scope.mouseButtons.LEFT;
+            break;
+          case 1:
+            mouseAction = scope.mouseButtons.MIDDLE;
+            break;
+          case 2:
+            mouseAction = scope.mouseButtons.RIGHT;
+            break;
+          default:
+            mouseAction = -1;
+        }
+        switch (mouseAction) {
+          case MOUSE.DOLLY:
+            if (scope.enableZoom === false)
+              return;
+            handleMouseDownDolly(event);
+            state = STATE.DOLLY;
+            break;
+          case MOUSE.ROTATE:
+            if (event.ctrlKey || event.metaKey || event.shiftKey) {
+              if (scope.enablePan === false)
+                return;
+              handleMouseDownPan(event);
+              state = STATE.PAN;
+            } else {
+              if (scope.enableRotate === false)
+                return;
+              handleMouseDownRotate(event);
+              state = STATE.ROTATE;
+            }
+            break;
+          case MOUSE.PAN:
+            if (event.ctrlKey || event.metaKey || event.shiftKey) {
+              if (scope.enableRotate === false)
+                return;
+              handleMouseDownRotate(event);
+              state = STATE.ROTATE;
+            } else {
+              if (scope.enablePan === false)
+                return;
+              handleMouseDownPan(event);
+              state = STATE.PAN;
+            }
+            break;
+          default:
+            state = STATE.NONE;
+        }
+        if (state !== STATE.NONE) {
+          scope.dispatchEvent(_startEvent);
+        }
+      }
+      function onMouseMove(event) {
+        switch (state) {
+          case STATE.ROTATE:
+            if (scope.enableRotate === false)
+              return;
+            handleMouseMoveRotate(event);
+            break;
+          case STATE.DOLLY:
+            if (scope.enableZoom === false)
+              return;
+            handleMouseMoveDolly(event);
+            break;
+          case STATE.PAN:
+            if (scope.enablePan === false)
+              return;
+            handleMouseMovePan(event);
+            break;
+        }
+      }
+      function onMouseWheel(event) {
+        if (scope.enabled === false || scope.enableZoom === false || state !== STATE.NONE)
+          return;
+        event.preventDefault();
+        scope.dispatchEvent(_startEvent);
+        handleMouseWheel(event);
+        scope.dispatchEvent(_endEvent);
+      }
+      function onKeyDown(event) {
+        if (scope.enabled === false || scope.enablePan === false)
+          return;
+        handleKeyDown(event);
+      }
+      function onTouchStart(event) {
+        trackPointer(event);
+        switch (pointers.length) {
+          case 1:
+            switch (scope.touches.ONE) {
+              case TOUCH.ROTATE:
+                if (scope.enableRotate === false)
+                  return;
+                handleTouchStartRotate();
+                state = STATE.TOUCH_ROTATE;
+                break;
+              case TOUCH.PAN:
+                if (scope.enablePan === false)
+                  return;
+                handleTouchStartPan();
+                state = STATE.TOUCH_PAN;
+                break;
+              default:
+                state = STATE.NONE;
+            }
+            break;
+          case 2:
+            switch (scope.touches.TWO) {
+              case TOUCH.DOLLY_PAN:
+                if (scope.enableZoom === false && scope.enablePan === false)
+                  return;
+                handleTouchStartDollyPan();
+                state = STATE.TOUCH_DOLLY_PAN;
+                break;
+              case TOUCH.DOLLY_ROTATE:
+                if (scope.enableZoom === false && scope.enableRotate === false)
+                  return;
+                handleTouchStartDollyRotate();
+                state = STATE.TOUCH_DOLLY_ROTATE;
+                break;
+              default:
+                state = STATE.NONE;
+            }
+            break;
+          default:
+            state = STATE.NONE;
+        }
+        if (state !== STATE.NONE) {
+          scope.dispatchEvent(_startEvent);
+        }
+      }
+      function onTouchMove(event) {
+        trackPointer(event);
+        switch (state) {
+          case STATE.TOUCH_ROTATE:
+            if (scope.enableRotate === false)
+              return;
+            handleTouchMoveRotate(event);
+            scope.update();
+            break;
+          case STATE.TOUCH_PAN:
+            if (scope.enablePan === false)
+              return;
+            handleTouchMovePan(event);
+            scope.update();
+            break;
+          case STATE.TOUCH_DOLLY_PAN:
+            if (scope.enableZoom === false && scope.enablePan === false)
+              return;
+            handleTouchMoveDollyPan(event);
+            scope.update();
+            break;
+          case STATE.TOUCH_DOLLY_ROTATE:
+            if (scope.enableZoom === false && scope.enableRotate === false)
+              return;
+            handleTouchMoveDollyRotate(event);
+            scope.update();
+            break;
+          default:
+            state = STATE.NONE;
+        }
+      }
+      function onContextMenu(event) {
+        if (scope.enabled === false)
+          return;
+        event.preventDefault();
+      }
+      function addPointer(event) {
+        pointers.push(event);
+      }
+      function removePointer(event) {
+        delete pointerPositions[event.pointerId];
+        for (let i = 0; i < pointers.length; i++) {
+          if (pointers[i].pointerId == event.pointerId) {
+            pointers.splice(i, 1);
+            return;
+          }
+        }
+      }
+      function trackPointer(event) {
+        let position = pointerPositions[event.pointerId];
+        if (position === void 0) {
+          position = new Vector2();
+          pointerPositions[event.pointerId] = position;
+        }
+        position.set(event.pageX, event.pageY);
+      }
+      function getSecondPointerPosition(event) {
+        const pointer = event.pointerId === pointers[0].pointerId ? pointers[1] : pointers[0];
+        return pointerPositions[pointer.pointerId];
+      }
+      scope.domElement.addEventListener("contextmenu", onContextMenu);
+      scope.domElement.addEventListener("pointerdown", onPointerDown);
+      scope.domElement.addEventListener("pointercancel", onPointerUp);
+      scope.domElement.addEventListener("wheel", onMouseWheel, { passive: false });
+      this.update();
     }
-  `,
-    fragmentShader: `
-    varying vec2 vUv;
-
-    void main() {
-      gl_FragColor = vec4(0.2, 0.6, 0.8, 0.8);
-    }
-  `
-  });
-  var water = new Mesh(waterGeometry, waterMaterial);
-  water.rotation.x = -Math.PI / 2;
-  scene.add(water);
-  var skyGeometry = new SphereGeometry(500, 60, 40);
-  var skyMaterial = new MeshBasicMaterial({ color: 14544639, side: BackSide });
-  var skybox = new Mesh(skyGeometry, skyMaterial);
-  scene.add(skybox);
-  var controls = {
-    waveHeight: 0.4,
-    waveSpeed: 0.1
   };
+
+  // node_modules/three/examples/jsm/objects/Water.js
+  var Water = class extends Mesh {
+    constructor(geometry, options = {}) {
+      super(geometry);
+      this.isWater = true;
+      const scope = this;
+      const textureWidth = options.textureWidth !== void 0 ? options.textureWidth : 512;
+      const textureHeight = options.textureHeight !== void 0 ? options.textureHeight : 512;
+      const clipBias = options.clipBias !== void 0 ? options.clipBias : 0;
+      const alpha = options.alpha !== void 0 ? options.alpha : 1;
+      const time = options.time !== void 0 ? options.time : 0;
+      const normalSampler = options.waterNormals !== void 0 ? options.waterNormals : null;
+      const sunDirection = options.sunDirection !== void 0 ? options.sunDirection : new Vector3(0.70707, 0.70707, 0);
+      const sunColor = new Color(options.sunColor !== void 0 ? options.sunColor : 16777215);
+      const waterColor = new Color(options.waterColor !== void 0 ? options.waterColor : 8355711);
+      const eye = options.eye !== void 0 ? options.eye : new Vector3(0, 0, 0);
+      const distortionScale = options.distortionScale !== void 0 ? options.distortionScale : 20;
+      const side = options.side !== void 0 ? options.side : FrontSide;
+      const fog = options.fog !== void 0 ? options.fog : false;
+      const mirrorPlane = new Plane();
+      const normal = new Vector3();
+      const mirrorWorldPosition = new Vector3();
+      const cameraWorldPosition = new Vector3();
+      const rotationMatrix = new Matrix4();
+      const lookAtPosition = new Vector3(0, 0, -1);
+      const clipPlane = new Vector4();
+      const view = new Vector3();
+      const target = new Vector3();
+      const q = new Vector4();
+      const textureMatrix = new Matrix4();
+      const mirrorCamera = new PerspectiveCamera();
+      const renderTarget = new WebGLRenderTarget(textureWidth, textureHeight);
+      const mirrorShader = {
+        uniforms: UniformsUtils.merge([
+          UniformsLib["fog"],
+          UniformsLib["lights"],
+          {
+            "normalSampler": { value: null },
+            "mirrorSampler": { value: null },
+            "alpha": { value: 1 },
+            "time": { value: 0 },
+            "size": { value: 1 },
+            "distortionScale": { value: 20 },
+            "textureMatrix": { value: new Matrix4() },
+            "sunColor": { value: new Color(8355711) },
+            "sunDirection": { value: new Vector3(0.70707, 0.70707, 0) },
+            "eye": { value: new Vector3() },
+            "waterColor": { value: new Color(5592405) }
+          }
+        ]),
+        vertexShader: (
+          /* glsl */
+          `
+				uniform mat4 textureMatrix;
+				uniform float time;
+
+				varying vec4 mirrorCoord;
+				varying vec4 worldPosition;
+
+				#include <common>
+				#include <fog_pars_vertex>
+				#include <shadowmap_pars_vertex>
+				#include <logdepthbuf_pars_vertex>
+
+				void main() {
+					mirrorCoord = modelMatrix * vec4( position, 1.0 );
+					worldPosition = mirrorCoord.xyzw;
+					mirrorCoord = textureMatrix * mirrorCoord;
+					vec4 mvPosition =  modelViewMatrix * vec4( position, 1.0 );
+					gl_Position = projectionMatrix * mvPosition;
+
+				#include <beginnormal_vertex>
+				#include <defaultnormal_vertex>
+				#include <logdepthbuf_vertex>
+				#include <fog_vertex>
+				#include <shadowmap_vertex>
+			}`
+        ),
+        fragmentShader: (
+          /* glsl */
+          `
+				uniform sampler2D mirrorSampler;
+				uniform float alpha;
+				uniform float time;
+				uniform float size;
+				uniform float distortionScale;
+				uniform sampler2D normalSampler;
+				uniform vec3 sunColor;
+				uniform vec3 sunDirection;
+				uniform vec3 eye;
+				uniform vec3 waterColor;
+
+				varying vec4 mirrorCoord;
+				varying vec4 worldPosition;
+
+				vec4 getNoise( vec2 uv ) {
+					vec2 uv0 = ( uv / 103.0 ) + vec2(time / 17.0, time / 29.0);
+					vec2 uv1 = uv / 107.0-vec2( time / -19.0, time / 31.0 );
+					vec2 uv2 = uv / vec2( 8907.0, 9803.0 ) + vec2( time / 101.0, time / 97.0 );
+					vec2 uv3 = uv / vec2( 1091.0, 1027.0 ) - vec2( time / 109.0, time / -113.0 );
+					vec4 noise = texture2D( normalSampler, uv0 ) +
+						texture2D( normalSampler, uv1 ) +
+						texture2D( normalSampler, uv2 ) +
+						texture2D( normalSampler, uv3 );
+					return noise * 0.5 - 1.0;
+				}
+
+				void sunLight( const vec3 surfaceNormal, const vec3 eyeDirection, float shiny, float spec, float diffuse, inout vec3 diffuseColor, inout vec3 specularColor ) {
+					vec3 reflection = normalize( reflect( -sunDirection, surfaceNormal ) );
+					float direction = max( 0.0, dot( eyeDirection, reflection ) );
+					specularColor += pow( direction, shiny ) * sunColor * spec;
+					diffuseColor += max( dot( sunDirection, surfaceNormal ), 0.0 ) * sunColor * diffuse;
+				}
+
+				#include <common>
+				#include <packing>
+				#include <bsdfs>
+				#include <fog_pars_fragment>
+				#include <logdepthbuf_pars_fragment>
+				#include <lights_pars_begin>
+				#include <shadowmap_pars_fragment>
+				#include <shadowmask_pars_fragment>
+
+				void main() {
+
+					#include <logdepthbuf_fragment>
+					vec4 noise = getNoise( worldPosition.xz * size );
+					vec3 surfaceNormal = normalize( noise.xzy * vec3( 1.5, 1.0, 1.5 ) );
+
+					vec3 diffuseLight = vec3(0.0);
+					vec3 specularLight = vec3(0.0);
+
+					vec3 worldToEye = eye-worldPosition.xyz;
+					vec3 eyeDirection = normalize( worldToEye );
+					sunLight( surfaceNormal, eyeDirection, 100.0, 2.0, 0.5, diffuseLight, specularLight );
+
+					float distance = length(worldToEye);
+
+					vec2 distortion = surfaceNormal.xz * ( 0.001 + 1.0 / distance ) * distortionScale;
+					vec3 reflectionSample = vec3( texture2D( mirrorSampler, mirrorCoord.xy / mirrorCoord.w + distortion ) );
+
+					float theta = max( dot( eyeDirection, surfaceNormal ), 0.0 );
+					float rf0 = 0.3;
+					float reflectance = rf0 + ( 1.0 - rf0 ) * pow( ( 1.0 - theta ), 5.0 );
+					vec3 scatter = max( 0.0, dot( surfaceNormal, eyeDirection ) ) * waterColor;
+					vec3 albedo = mix( ( sunColor * diffuseLight * 0.3 + scatter ) * getShadowMask(), ( vec3( 0.1 ) + reflectionSample * 0.9 + reflectionSample * specularLight ), reflectance);
+					vec3 outgoingLight = albedo;
+					gl_FragColor = vec4( outgoingLight, alpha );
+
+					#include <tonemapping_fragment>
+					#include <colorspace_fragment>
+					#include <fog_fragment>	
+				}`
+        )
+      };
+      const material = new ShaderMaterial({
+        fragmentShader: mirrorShader.fragmentShader,
+        vertexShader: mirrorShader.vertexShader,
+        uniforms: UniformsUtils.clone(mirrorShader.uniforms),
+        lights: true,
+        side,
+        fog
+      });
+      material.uniforms["mirrorSampler"].value = renderTarget.texture;
+      material.uniforms["textureMatrix"].value = textureMatrix;
+      material.uniforms["alpha"].value = alpha;
+      material.uniforms["time"].value = time;
+      material.uniforms["normalSampler"].value = normalSampler;
+      material.uniforms["sunColor"].value = sunColor;
+      material.uniforms["waterColor"].value = waterColor;
+      material.uniforms["sunDirection"].value = sunDirection;
+      material.uniforms["distortionScale"].value = distortionScale;
+      material.uniforms["eye"].value = eye;
+      scope.material = material;
+      scope.onBeforeRender = function(renderer2, scene2, camera2) {
+        mirrorWorldPosition.setFromMatrixPosition(scope.matrixWorld);
+        cameraWorldPosition.setFromMatrixPosition(camera2.matrixWorld);
+        rotationMatrix.extractRotation(scope.matrixWorld);
+        normal.set(0, 0, 1);
+        normal.applyMatrix4(rotationMatrix);
+        view.subVectors(mirrorWorldPosition, cameraWorldPosition);
+        if (view.dot(normal) > 0)
+          return;
+        view.reflect(normal).negate();
+        view.add(mirrorWorldPosition);
+        rotationMatrix.extractRotation(camera2.matrixWorld);
+        lookAtPosition.set(0, 0, -1);
+        lookAtPosition.applyMatrix4(rotationMatrix);
+        lookAtPosition.add(cameraWorldPosition);
+        target.subVectors(mirrorWorldPosition, lookAtPosition);
+        target.reflect(normal).negate();
+        target.add(mirrorWorldPosition);
+        mirrorCamera.position.copy(view);
+        mirrorCamera.up.set(0, 1, 0);
+        mirrorCamera.up.applyMatrix4(rotationMatrix);
+        mirrorCamera.up.reflect(normal);
+        mirrorCamera.lookAt(target);
+        mirrorCamera.far = camera2.far;
+        mirrorCamera.updateMatrixWorld();
+        mirrorCamera.projectionMatrix.copy(camera2.projectionMatrix);
+        textureMatrix.set(
+          0.5,
+          0,
+          0,
+          0.5,
+          0,
+          0.5,
+          0,
+          0.5,
+          0,
+          0,
+          0.5,
+          0.5,
+          0,
+          0,
+          0,
+          1
+        );
+        textureMatrix.multiply(mirrorCamera.projectionMatrix);
+        textureMatrix.multiply(mirrorCamera.matrixWorldInverse);
+        mirrorPlane.setFromNormalAndCoplanarPoint(normal, mirrorWorldPosition);
+        mirrorPlane.applyMatrix4(mirrorCamera.matrixWorldInverse);
+        clipPlane.set(mirrorPlane.normal.x, mirrorPlane.normal.y, mirrorPlane.normal.z, mirrorPlane.constant);
+        const projectionMatrix = mirrorCamera.projectionMatrix;
+        q.x = (Math.sign(clipPlane.x) + projectionMatrix.elements[8]) / projectionMatrix.elements[0];
+        q.y = (Math.sign(clipPlane.y) + projectionMatrix.elements[9]) / projectionMatrix.elements[5];
+        q.z = -1;
+        q.w = (1 + projectionMatrix.elements[10]) / projectionMatrix.elements[14];
+        clipPlane.multiplyScalar(2 / clipPlane.dot(q));
+        projectionMatrix.elements[2] = clipPlane.x;
+        projectionMatrix.elements[6] = clipPlane.y;
+        projectionMatrix.elements[10] = clipPlane.z + 1 - clipBias;
+        projectionMatrix.elements[14] = clipPlane.w;
+        eye.setFromMatrixPosition(camera2.matrixWorld);
+        const currentRenderTarget = renderer2.getRenderTarget();
+        const currentXrEnabled = renderer2.xr.enabled;
+        const currentShadowAutoUpdate = renderer2.shadowMap.autoUpdate;
+        scope.visible = false;
+        renderer2.xr.enabled = false;
+        renderer2.shadowMap.autoUpdate = false;
+        renderer2.setRenderTarget(renderTarget);
+        renderer2.state.buffers.depth.setMask(true);
+        if (renderer2.autoClear === false)
+          renderer2.clear();
+        renderer2.render(scene2, mirrorCamera);
+        scope.visible = true;
+        renderer2.xr.enabled = currentXrEnabled;
+        renderer2.shadowMap.autoUpdate = currentShadowAutoUpdate;
+        renderer2.setRenderTarget(currentRenderTarget);
+        const viewport2 = camera2.viewport;
+        if (viewport2 !== void 0) {
+          renderer2.state.viewport(viewport2);
+        }
+      };
+    }
+  };
+
+  // node_modules/three/examples/jsm/objects/Sky.js
+  var Sky = class _Sky extends Mesh {
+    constructor() {
+      const shader = _Sky.SkyShader;
+      const material = new ShaderMaterial({
+        name: "SkyShader",
+        fragmentShader: shader.fragmentShader,
+        vertexShader: shader.vertexShader,
+        uniforms: UniformsUtils.clone(shader.uniforms),
+        side: BackSide,
+        depthWrite: false
+      });
+      super(new BoxGeometry(1, 1, 1), material);
+      this.isSky = true;
+    }
+  };
+  Sky.SkyShader = {
+    uniforms: {
+      "turbidity": { value: 2 },
+      "rayleigh": { value: 1 },
+      "mieCoefficient": { value: 5e-3 },
+      "mieDirectionalG": { value: 0.8 },
+      "sunPosition": { value: new Vector3() },
+      "up": { value: new Vector3(0, 1, 0) }
+    },
+    vertexShader: (
+      /* glsl */
+      `
+		uniform vec3 sunPosition;
+		uniform float rayleigh;
+		uniform float turbidity;
+		uniform float mieCoefficient;
+		uniform vec3 up;
+
+		varying vec3 vWorldPosition;
+		varying vec3 vSunDirection;
+		varying float vSunfade;
+		varying vec3 vBetaR;
+		varying vec3 vBetaM;
+		varying float vSunE;
+
+		// constants for atmospheric scattering
+		const float e = 2.71828182845904523536028747135266249775724709369995957;
+		const float pi = 3.141592653589793238462643383279502884197169;
+
+		// wavelength of used primaries, according to preetham
+		const vec3 lambda = vec3( 680E-9, 550E-9, 450E-9 );
+		// this pre-calcuation replaces older TotalRayleigh(vec3 lambda) function:
+		// (8.0 * pow(pi, 3.0) * pow(pow(n, 2.0) - 1.0, 2.0) * (6.0 + 3.0 * pn)) / (3.0 * N * pow(lambda, vec3(4.0)) * (6.0 - 7.0 * pn))
+		const vec3 totalRayleigh = vec3( 5.804542996261093E-6, 1.3562911419845635E-5, 3.0265902468824876E-5 );
+
+		// mie stuff
+		// K coefficient for the primaries
+		const float v = 4.0;
+		const vec3 K = vec3( 0.686, 0.678, 0.666 );
+		// MieConst = pi * pow( ( 2.0 * pi ) / lambda, vec3( v - 2.0 ) ) * K
+		const vec3 MieConst = vec3( 1.8399918514433978E14, 2.7798023919660528E14, 4.0790479543861094E14 );
+
+		// earth shadow hack
+		// cutoffAngle = pi / 1.95;
+		const float cutoffAngle = 1.6110731556870734;
+		const float steepness = 1.5;
+		const float EE = 1000.0;
+
+		float sunIntensity( float zenithAngleCos ) {
+			zenithAngleCos = clamp( zenithAngleCos, -1.0, 1.0 );
+			return EE * max( 0.0, 1.0 - pow( e, -( ( cutoffAngle - acos( zenithAngleCos ) ) / steepness ) ) );
+		}
+
+		vec3 totalMie( float T ) {
+			float c = ( 0.2 * T ) * 10E-18;
+			return 0.434 * c * MieConst;
+		}
+
+		void main() {
+
+			vec4 worldPosition = modelMatrix * vec4( position, 1.0 );
+			vWorldPosition = worldPosition.xyz;
+
+			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+			gl_Position.z = gl_Position.w; // set z to camera.far
+
+			vSunDirection = normalize( sunPosition );
+
+			vSunE = sunIntensity( dot( vSunDirection, up ) );
+
+			vSunfade = 1.0 - clamp( 1.0 - exp( ( sunPosition.y / 450000.0 ) ), 0.0, 1.0 );
+
+			float rayleighCoefficient = rayleigh - ( 1.0 * ( 1.0 - vSunfade ) );
+
+			// extinction (absorbtion + out scattering)
+			// rayleigh coefficients
+			vBetaR = totalRayleigh * rayleighCoefficient;
+
+			// mie coefficients
+			vBetaM = totalMie( turbidity ) * mieCoefficient;
+
+		}`
+    ),
+    fragmentShader: (
+      /* glsl */
+      `
+		varying vec3 vWorldPosition;
+		varying vec3 vSunDirection;
+		varying float vSunfade;
+		varying vec3 vBetaR;
+		varying vec3 vBetaM;
+		varying float vSunE;
+
+		uniform float mieDirectionalG;
+		uniform vec3 up;
+
+		const vec3 cameraPos = vec3( 0.0, 0.0, 0.0 );
+
+		// constants for atmospheric scattering
+		const float pi = 3.141592653589793238462643383279502884197169;
+
+		const float n = 1.0003; // refractive index of air
+		const float N = 2.545E25; // number of molecules per unit volume for air at 288.15K and 1013mb (sea level -45 celsius)
+
+		// optical length at zenith for molecules
+		const float rayleighZenithLength = 8.4E3;
+		const float mieZenithLength = 1.25E3;
+		// 66 arc seconds -> degrees, and the cosine of that
+		const float sunAngularDiameterCos = 0.999956676946448443553574619906976478926848692873900859324;
+
+		// 3.0 / ( 16.0 * pi )
+		const float THREE_OVER_SIXTEENPI = 0.05968310365946075;
+		// 1.0 / ( 4.0 * pi )
+		const float ONE_OVER_FOURPI = 0.07957747154594767;
+
+		float rayleighPhase( float cosTheta ) {
+			return THREE_OVER_SIXTEENPI * ( 1.0 + pow( cosTheta, 2.0 ) );
+		}
+
+		float hgPhase( float cosTheta, float g ) {
+			float g2 = pow( g, 2.0 );
+			float inverse = 1.0 / pow( 1.0 - 2.0 * g * cosTheta + g2, 1.5 );
+			return ONE_OVER_FOURPI * ( ( 1.0 - g2 ) * inverse );
+		}
+
+		void main() {
+
+			vec3 direction = normalize( vWorldPosition - cameraPos );
+
+			// optical length
+			// cutoff angle at 90 to avoid singularity in next formula.
+			float zenithAngle = acos( max( 0.0, dot( up, direction ) ) );
+			float inverse = 1.0 / ( cos( zenithAngle ) + 0.15 * pow( 93.885 - ( ( zenithAngle * 180.0 ) / pi ), -1.253 ) );
+			float sR = rayleighZenithLength * inverse;
+			float sM = mieZenithLength * inverse;
+
+			// combined extinction factor
+			vec3 Fex = exp( -( vBetaR * sR + vBetaM * sM ) );
+
+			// in scattering
+			float cosTheta = dot( direction, vSunDirection );
+
+			float rPhase = rayleighPhase( cosTheta * 0.5 + 0.5 );
+			vec3 betaRTheta = vBetaR * rPhase;
+
+			float mPhase = hgPhase( cosTheta, mieDirectionalG );
+			vec3 betaMTheta = vBetaM * mPhase;
+
+			vec3 Lin = pow( vSunE * ( ( betaRTheta + betaMTheta ) / ( vBetaR + vBetaM ) ) * ( 1.0 - Fex ), vec3( 1.5 ) );
+			Lin *= mix( vec3( 1.0 ), pow( vSunE * ( ( betaRTheta + betaMTheta ) / ( vBetaR + vBetaM ) ) * Fex, vec3( 1.0 / 2.0 ) ), clamp( pow( 1.0 - dot( up, vSunDirection ), 5.0 ), 0.0, 1.0 ) );
+
+			// nightsky
+			float theta = acos( direction.y ); // elevation --> y-axis, [-pi/2, pi/2]
+			float phi = atan( direction.z, direction.x ); // azimuth --> x-axis [-pi/2, pi/2]
+			vec2 uv = vec2( phi, theta ) / vec2( 2.0 * pi, pi ) + vec2( 0.5, 0.0 );
+			vec3 L0 = vec3( 0.1 ) * Fex;
+
+			// composition + solar disc
+			float sundisk = smoothstep( sunAngularDiameterCos, sunAngularDiameterCos + 0.00002, cosTheta );
+			L0 += ( vSunE * 19000.0 * Fex ) * sundisk;
+
+			vec3 texColor = ( Lin + L0 ) * 0.04 + vec3( 0.0, 0.0003, 0.00075 );
+
+			vec3 retColor = pow( texColor, vec3( 1.0 / ( 1.2 + ( 1.2 * vSunfade ) ) ) );
+
+			gl_FragColor = vec4( retColor, 1.0 );
+
+			#include <tonemapping_fragment>
+			#include <colorspace_fragment>
+
+		}`
+    )
+  };
+
+  // app/javascript/ocean.js
+  function SceneManager(canvas2) {
+    function buildScene() {
+      const scene2 = new Scene();
+      return scene2;
+    }
+    function buildCamera() {
+      const camera2 = new PerspectiveCamera(55, window.innerWidth / window.innerHeight, 1, 2e4);
+      camera2.position.set(30, 30, 100);
+      return camera2;
+    }
+    function buildRenderer(canvas3) {
+      const renderer2 = new WebGLRenderer();
+      renderer2.setPixelRatio(window.devicePixelRatio);
+      renderer2.setSize(window.innerWidth, window.innerHeight);
+      canvas3.appendChild(renderer2.domElement);
+      return renderer2;
+    }
+    function buildSky() {
+      const sky2 = new Sky();
+      sky2.scale.setScalar(1e4);
+      scene.add(sky2);
+      return sky2;
+    }
+    function buildSun() {
+      const pmremGenerator = new PMREMGenerator(renderer);
+      const sun = new Vector3();
+      const theta = Math.PI * (0.49 - 0.5);
+      const phi = 2 * Math.PI * (0.205 - 0.5);
+      sun.x = Math.cos(phi);
+      sun.y = Math.sin(phi) * Math.sin(theta);
+      sun.z = Math.sin(phi) * Math.cos(theta);
+      sky.material.uniforms["sunPosition"].value.copy(sun);
+      scene.environment = pmremGenerator.fromScene(sky).texture;
+      return sun;
+    }
+    function buildWater() {
+      const waterGeometry = new PlaneGeometry(1e4, 1e4);
+      const water2 = new Water(
+        waterGeometry,
+        {
+          textureWidth: 512,
+          textureHeight: 512,
+          waterNormals: new TextureLoader().load("", function(texture) {
+            texture.wrapS = texture.wrapT = RepeatWrapping;
+          }),
+          alpha: 1,
+          sunDirection: new Vector3(),
+          sunColor: 16777215,
+          waterColor: 7695,
+          distortionScale: 3.7,
+          fog: scene.fog !== void 0
+        }
+      );
+      water2.rotation.x = -Math.PI / 2;
+      scene.add(water2);
+      const waterUniforms = water2.material.uniforms;
+      return water2;
+    }
+    function buildSphere() {
+      const geometry = new SphereGeometry(20, 20, 20);
+      const material = new MeshStandardMaterial({ color: 16566082 });
+      const sphere2 = new Mesh(geometry, material);
+      scene.add(sphere2);
+      return sphere2;
+    }
+    function setOrbitControls() {
+      const controls = new OrbitControls(camera, renderer.domElement);
+      controls.maxPolarAngle = Math.PI * 0.495;
+      controls.target.set(0, 10, 0);
+      controls.minDistance = 40;
+      controls.maxDistance = 200;
+      controls.update();
+      return controls;
+    }
+    this.update = function() {
+      water.material.uniforms["time"].value += 1 / 60;
+      const time = performance.now() * 1e-3;
+      sphere.position.y = Math.sin(time) * 2;
+      sphere.rotation.x = time * 0.3;
+      sphere.rotation.z = time * 0.3;
+      renderer.render(scene, camera);
+    };
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+    window.addEventListener("resize", onWindowResize);
+  }
+  var canvas = document.getElementById("canvas-container");
+  var sceneManager = new SceneManager(canvas);
   function animate() {
     requestAnimationFrame(animate);
-    waterMaterial.uniforms.amplitude.value = controls.waveHeight;
-    waterMaterial.uniforms.speed.value = controls.waveSpeed;
-    renderer.render(scene, camera);
+    sceneManager.update();
   }
   animate();
 
@@ -30474,10 +31679,10 @@
       const tip = this._getTipElement();
       this._element.setAttribute("aria-describedby", tip.getAttribute("id"));
       const {
-        container: container2
+        container
       } = this._config;
       if (!this._element.ownerDocument.documentElement.contains(this.tip)) {
-        container2.append(tip);
+        container.append(tip);
         EventHandler.trigger(this._element, this.constructor.eventName(EVENT_INSERTED));
       }
       this._popper = this._createPopper(tip);

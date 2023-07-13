@@ -1,80 +1,136 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { Water } from 'three/examples/jsm/objects/Water.js';
 
-const scene = new THREE.Scene();
-const renderer = new THREE.WebGLRenderer();
+import { Sky } from 'three/examples/jsm/objects/Sky.js';
 
-// sets fixed size. ideal would be that all containers are responsive and the size is updated according to current width
-//const camera = new THREE.PerspectiveCamera(70, 1000 / 500, 0.1, 1000);
-//renderer.setSize(1000, 500);
-let container = document.getElementById('canvas-container');
-const camera = new THREE.PerspectiveCamera(70, container.offsetWidth / container.offsetHeight, 0.1, 1000);
-renderer.setSize(container.offsetWidth, container.offsetHeight);
+function SceneManager(canvas) {
 
+    const scene = buildScene();
+    const renderer = buildRenderer(canvas);
+    const camera = buildCamera();
+    const sphere = buildSphere();
+    const sky = buildSky();
+    const sun = buildSun();
+    const water = buildWater();
+    const orbitCon = setOrbitControls();
 
-container.appendChild(renderer.domElement);
-const light = new THREE.DirectionalLight(0xffffff);
-light.position.set(0, 1, 1).normalize();
-scene.add(light);
-
-// Create the water plane
-const waterGeometry = new THREE.PlaneGeometry(10, 10, 100, 100);
-
-// Custom shader material for water
-const waterMaterial = new THREE.ShaderMaterial({
-    uniforms: {
-        amplitude: { value: 0.4 },
-        speed: { value: 0.1 }
-    },
-    vertexShader: `
-    uniform float amplitude;
-    uniform float speed;
-    varying vec2 vUv;
-
-    void main() {
-      vUv = uv;
-      vec3 transformed = position.xyz;
-      transformed.z += sin(transformed.x * speed + transformed.y * speed) * amplitude;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(transformed, 1.0);
+    const canvas = document.getElementById("canvas-container");
+    const sceneManager = new SceneManager(canvas);
+    function buildScene() {
+        const scene = new THREE.Scene();
+        return scene;
     }
-  `,
-    fragmentShader: `
-    varying vec2 vUv;
 
-    void main() {
-      gl_FragColor = vec4(0.2, 0.6, 0.8, 0.8);
+    function buildCamera() {
+        const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 1, 20000);
+        camera.position.set(30, 30, 100);
+        return camera;
     }
-  `
-});
 
-const controls = new OrbitControls( camera, renderer.domElement );
+    function buildRenderer(canvas) {
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        canvas.appendChild(renderer.domElement);
+        return renderer;
+    }
 
-const water = new THREE.Mesh(waterGeometry, waterMaterial);
-water.rotation.x = -Math.PI / 2;
-scene.add(water);
+    function buildSky() {
+        const sky = new Sky();
+        sky.scale.setScalar(10000);
+        scene.add(sky);
+        return sky;
+    }
 
-// Create the skybox
-const skyGeometry = new THREE.SphereGeometry(500, 60, 40);
-const skyMaterial = new THREE.MeshBasicMaterial({ color: 0xddeeff, side: THREE.BackSide });
-const skybox = new THREE.Mesh(skyGeometry, skyMaterial);
-scene.add(skybox);
+    function buildSun() {
+        const pmremGenerator = new THREE.PMREMGenerator(renderer);
+        const sun = new THREE.Vector3();
 
-// Add controls to adjust wave height and speed
-const controls = {
-    waveHeight: 0.4,
-    waveSpeed: 0.1
-};
+        // Defining the x, y and z value for our 3D Vector
+        const theta = Math.PI * (0.49 - 0.5);
+        const phi = 2 * Math.PI * (0.205 - 0.5);
+        sun.x = Math.cos(phi);
+        sun.y = Math.sin(phi) * Math.sin(theta);
+        sun.z = Math.sin(phi) * Math.cos(theta);
+
+        sky.material.uniforms['sunPosition'].value.copy(sun);
+        scene.environment = pmremGenerator.fromScene(sky).texture;
+        return sun;
+    }
+
+    function buildWater() {
+        const waterGeometry = new THREE.PlaneGeometry(10000, 10000);
+        const water = new Water(
+            waterGeometry,
+            {
+                textureWidth: 512,
+                textureHeight: 512,
+                waterNormals: new THREE.TextureLoader().load('', function ( texture ) {
+                    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+                }),
+                alpha: 1.0,
+                sunDirection: new THREE.Vector3(),
+                sunColor: 0xffffff,
+                waterColor: 0x001e0f,
+                distortionScale: 3.7,
+                fog: scene.fog !== undefined
+            }
+        );
+        water.rotation.x =- Math.PI / 2;
+        scene.add(water);
+
+        const waterUniforms = water.material.uniforms;
+        return water;
+    }
+
+    function buildSphere() {
+        const geometry = new THREE.SphereGeometry(20, 20, 20);
+        const material = new THREE.MeshStandardMaterial({color: 0xfcc742});
+
+        const sphere = new THREE.Mesh(geometry, material);
+        scene.add(sphere);
+        return sphere;
+    }
+
+    function setOrbitControls() {
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.maxPolarAngle = Math.PI * 0.495;
+        controls.target.set(0, 10, 0);
+        controls.minDistance = 40.0;
+        controls.maxDistance = 200.0;
+        controls.update();
+        return controls;
+    }
+
+    this.update = function() {
+        // Animates our water
+        water.material.uniforms[ 'time' ].value += 1.0 / 60.0;
+
+        // Reposition our sphere to appear to float up and down
+        const time = performance.now() * 0.001;
+        sphere.position.y = Math.sin( time ) * 2;
+        sphere.rotation.x = time * 0.3;
+        sphere.rotation.z = time * 0.3;
+
+        // Finally, render our scene
+        renderer.render(scene, camera);
+    }
+
+    function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+    window.addEventListener('resize', onWindowResize);
+
+}
+
+
 
 function animate() {
     requestAnimationFrame(animate);
-
-    // Update the water material uniforms for wave animation
-    waterMaterial.uniforms.amplitude.value = controls.waveHeight;
-    waterMaterial.uniforms.speed.value = controls.waveSpeed;
-
-    renderer.render(scene, camera);
+    sceneManager.update();
 }
-
 animate();
-
