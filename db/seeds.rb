@@ -7,3 +7,5 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 Corner.where(name: "rain", velocity: 20.0).first_or_create!
+Corner.where(name: "snow", velocity: 5.0).first_or_create!
+Corner.where(name: "ocean", velocity: 10.0).first_or_create!
