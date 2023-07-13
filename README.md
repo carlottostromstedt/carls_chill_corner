@@ -1,24 +1,34 @@
-# README
+# H
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Testing
 
-Things you may want to cover:
+### Corner Factory
 
-* Ruby version
+```ruby
+FactoryBot.define do
+  factory :corner do
+    name { "ocean" }
+    velocity { 20.0 }
+  end
+end
 
-* System dependencies
+```
 
-* Configuration
+### Request spec
 
-* Database creation
+```ruby
+RSpec.describe "Corners", type: :request do
+  describe "GET /index" do
+    let(:corner) { create(:corner) }
 
-* Database initialization
+    it 'returns a 200 response' do
+      get corner_path(corner)
+      expect(response).to have_http_status(200)
+    end
+  end
+end
 
-* How to run the test suite
+```
+### Test Result
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+![](test_success.png)
