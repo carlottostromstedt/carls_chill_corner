@@ -1,12 +1,0 @@
-{:uriI"’file://app/assets/builds/colorpicker.js.map?type=application/js-sourcemap+json&id=a28353bfdea32fae5f13d288599cc091b688517aa13fa68f0ce1ad3d5aa90608:ET:load_pathI"app/assets/builds;T:filenameI")app/assets/builds/colorpicker.js.map;T:	nameI"colorpicker;T:logical_pathI"colorpicker.js.map;T:content_typeI""application/js-sourcemap+json;T:sourceI"“{
-  "version": 3,
-  "sources": ["../../javascript/colorpicker.js"],
-  "sourcesContent": ["const formField = document.getElementById('form-field');\nconst updateButton = document.getElementById('update-button');\nconst colorInput = document.getElementById('color-input');\n\nupdateButton.addEventListener('click', function() {\n    colorInput.textContent = document.getElementById('colorInput1').jscolor.toHEXString();\n    console.log(\"hello\");\n});\n\nfunction setDefaultColor() {\n    var colorInput = document.getElementById(\"colorInput1\");\n    colorInput.jscolor.fromString(\"A0C0BF\");\n    colorInput.textContent = document.getElementById('colorInput1').jscolor.toHEXString();\n}\n\nwindow.addEventListener(\"load\", setDefaultColor);"],
-  "mappings": ";;AAAA,MAAM,YAAY,SAAS,eAAe,YAAY;AACtD,MAAM,eAAe,SAAS,eAAe,eAAe;AAC5D,MAAM,aAAa,SAAS,eAAe,aAAa;AAExD,eAAa,iBAAiB,SAAS,WAAW;AAC9C,eAAW,cAAc,SAAS,eAAe,aAAa,EAAE,QAAQ,YAAY;AACpF,YAAQ,IAAI,OAAO;AAAA,EACvB,CAAC;AAED,WAAS,kBAAkB;AACvB,QAAIA,cAAa,SAAS,eAAe,aAAa;AACtD,IAAAA,YAAW,QAAQ,WAAW,QAAQ;AACtC,IAAAA,YAAW,cAAc,SAAS,eAAe,aAAa,EAAE,QAAQ,YAAY;AAAA,EACxF;AAEA,SAAO,iBAAiB,QAAQ,eAAe;",
-  "names": ["colorInput"]
-}
-;T:metadata{
-:dependencieso:Set:
-@hash}
-I"environment-version;TTI"environment-paths;TTI"rails-env;TTI"Zprocessors:type=application/js-sourcemap+json&file_type=application/js-sourcemap+json;TTI"7file-digest://app/assets/builds/colorpicker.js.map;TTF:charsetI"
-utf-8;F:digest"%f´/µÈ-#a…ë{É„‰ö’÷l}ËŸŒ¹:Õ•:lengthi“:environment_versionI"1.0;T:dependencies_digest"%¾ø:4Ÿ·>°õûO%êÿc€êÌ¡ö ¦d•|ÂNå:idI"Ea28353bfdea32fae5f13d288599cc091b688517aa13fa68f0ce1ad3d5aa90608;F

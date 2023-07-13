@@ -20,14 +20,14 @@ function resizeCanvasToDisplaySize() {
     // look up the size the canvas is being displayed
     const width = canvas.clientWidth;
     const height = canvas.clientHeight;
-
+  
     // adjust displayBuffer size to match
     if (canvas.width !== width || canvas.height !== height) {
       // you must pass false here or three.js sadly fights the browser
       renderer.setSize(width, height, false);
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
-
+  
       // update any render target sizes here
     }
   }
@@ -116,33 +116,29 @@ function updateRaindrops() {
     raindropMaterial.color.set(color2);
     const positions = raindropGeometry.attributes.position.array;
     const count = positions.length / 3;
-
+  
     for (let i = 0; i < count; i++) {
       const index = i * 3;
       positions[index + 1] -= 0.75; // Move raindrop downwards
-
+  
       if (positions[index + 1] < -10) {
         // Reset raindrop position if it has moved through
         positions[index + 1] = Math.random() * 100; // Adjust the spawn range as needed
       }
     }
-
+  
     raindropGeometry.attributes.position.needsUpdate = true;
   }
-
+  
   // Animation loop
   function animate() {
     requestAnimationFrame(animate);
-
+  
     updateRaindrops();
-
-
+    
+  
     renderer.render(scene, camera);
   }
-
+  
   // Start the animation loop
   animate();
-
-
-  
-  
