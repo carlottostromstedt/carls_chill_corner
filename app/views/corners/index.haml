@@ -3,5 +3,5 @@
   .h1.mx-5.mt-5 Corners
   .ul.mx-5
     - @corners.each do |i|
-      .li
+      .li.scene-links
         = link_to i.name, corner_path(i.id)

@@ -8,6 +8,8 @@ class CornersController < ApplicationController
 
   # GET /corners/1 or /corners/1.json
   def show
+    id = params[:id]
+    @corner = Corner.where(id: id).first
   end
 
   # GET /corners/new
